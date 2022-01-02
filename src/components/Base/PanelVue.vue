@@ -1,5 +1,9 @@
 <template>
-        <div class="leftPanel">
+        <div
+        class="leftPanel"
+        :class="{'leftPanel--open': isOpenMenu}"
+        @mouseleave="closeMenu"
+        >
         <div class="leftPanel-head"> 
           <div class="leftPanel-title">Каталог</div>
           <div class="leftPanel-form"> 
@@ -95,8 +99,19 @@
 </template>
 
 <script>
+import {watch} from 'vue'
 export default {
+  props: ['isOpenMenu'],
+  emits: ['closeMenu'],
+  setup(props, context) {
+    const closeMenu = () => {
+     context.emit('closeMenu')
+    }
 
+    return {
+      closeMenu
+    }
+  }
 }
 </script>
 

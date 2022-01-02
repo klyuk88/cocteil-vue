@@ -2,10 +2,12 @@
       <header class="header">
         <div class="container">
           <div class="header__content flex">
-            <div class="header__menu"> <a class="open-menu" href="#" aria-label="open menu"> 
+            <div class="header__menu">
+              <a class="open-menu" href="#" aria-label="open menu" @mouseenter="openMenu"> 
                 <svg class="svg-sprite-icon icon-burger">
                   <use xlink:href="@/assets/images/svg/symbol/sprite.svg#burger"></use>
-                </svg></a></div>
+                </svg></a>
+            </div>
             <div class="header__actions">
               <div class="header__search"> 
                 <form class="search-form" action="/"> 
@@ -41,14 +43,34 @@
         </div>
       </header>
       
-      <PanelVue/>
+      <PanelVue
+      :isOpenMenu="isOpenMenu"
+      @closeMenu="closeMenu"
+      />
       
     
 </template>
 <script>
+import {ref} from 'vue'
 import PanelVue from "./PanelVue.vue";
 export default {
   components: { PanelVue },
+  setup(props) {
+    const isOpenMenu = ref(false)
+    const openMenu = () => {
+      isOpenMenu.value = true
+    }
+    const closeMenu = () => {
+      isOpenMenu.value = false
+    }
+    
+
+    return {
+      isOpenMenu,
+      openMenu,
+      closeMenu
+    }
+  }
 };
 </script>
 <style>
