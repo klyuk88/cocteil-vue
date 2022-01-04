@@ -1,7 +1,10 @@
 <template>
+<main>
   <HeaderVue />
   <router-view></router-view>
   <FooterVue />
+</main>
+
 </template>
 
 
@@ -13,10 +16,17 @@ export default {
     HeaderVue,
     FooterVue,
   },
+  setup(props) {
+    
+
+    return {
+   
+    }
+  }
 };
 </script>
 
 <style lang="sass">
-html, body
+main
   overflow-x: hidden
 </style>

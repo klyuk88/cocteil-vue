@@ -43,32 +43,29 @@
         </div>
       </header>
       
-      <PanelVue
-      :isOpenMenu="isOpenMenu"
-      @closeMenu="closeMenu"
-      />
+      <PanelVue/>
       
     
 </template>
 <script>
-import {ref} from 'vue'
+import {ref, computed} from 'vue'
+import { useStore } from 'vuex'
 import PanelVue from "./PanelVue.vue";
 export default {
   components: { PanelVue },
   setup(props) {
-    const isOpenMenu = ref(false)
+    const store = useStore()
+    const isMenuOpen = computed(() => {
+      return store.state.openHeaderMenu
+    })
+
     const openMenu = () => {
-      isOpenMenu.value = true
+      store.commit('openMenu')
     }
-    const closeMenu = () => {
-      isOpenMenu.value = false
-    }
-    
 
     return {
-      isOpenMenu,
+      isMenuOpen,
       openMenu,
-      closeMenu
     }
   }
 };
