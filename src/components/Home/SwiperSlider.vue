@@ -17,7 +17,8 @@
       :price="item.regular_price"
       :sale-price="item.sale_price"
       :thumbnail="item.images[0].src"
-
+      :slug="item.slug"
+      :id="item.id"
       />
     </SwiperSlide>
   </Swiper>

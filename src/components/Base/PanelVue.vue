@@ -25,130 +25,46 @@
       </div>
     </div>
     <div class="leftPanel-logo">
-      <picture class="desctop">
-        <source srcset="@/assets/images/general/logo.webp" type="image/webp" />
-        <img
-          src="@/assets/images/general/logo.png"
-          width="118"
-          height="118"
-          alt="img"
-        />
-      </picture>
-      <picture class="mobile">
-        <source
-          srcset="@/assets/images/general/logo-2.webp"
-          type="image/webp"
-        />
-        <img
-          src="@/assets/images/general/logo-2.png"
-          width="96"
-          height="118"
-          alt="img"
-        />
-      </picture>
+      <router-link to="/">
+        <picture class="desctop">
+          <source
+            srcset="@/assets/images/general/logo.webp"
+            type="image/webp"
+          />
+          <img
+            src="@/assets/images/general/logo.png"
+            width="118"
+            height="118"
+            alt="img"
+          />
+        </picture>
+      </router-link>
+
+      <router-link to="/">
+        <picture class="mobile">
+          <source
+            srcset="@/assets/images/general/logo-2.webp"
+            type="image/webp"
+          />
+          <img
+            src="@/assets/images/general/logo-2.png"
+            width="96"
+            height="118"
+            alt="img"
+          />
+        </picture>
+      </router-link>
     </div>
     <div class="leftPanel-inner">
       <div class="leftPanel-left">
         <ul class="menu">
-          <li class="menu__item">
-            <a class="menu__link menu__link--has-child" href="#">Женщинам </a>
-            <div class="dropdown-menu">
-              <ul class="menu">
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Блузки и рубашки</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Майки</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Костюмы</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Брюки</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Джинсы</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Юбки</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Пиджаки и жакеты</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Платья и сарафаны</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Юбки</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Шорты</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Свитшоты, худи</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Верхняя одежда</a>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li class="menu__item">
-            <a class="menu__link menu__link--has-child" href="#">Мужчинам</a>
-            <div class="dropdown-menu">
-              <ul class="menu">
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Блузки и рубашки</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Майки</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Костюмы</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Брюки</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Джинсы</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Юбки</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Пиджаки и жакеты</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Платья и сарафаны</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Юбки</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Шорты</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Свитшоты, худи</a>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#">Верхняя одежда</a>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li class="menu__item"><a class="menu__link" href="#">Детям</a></li>
-          <li class="menu__item"><a class="menu__link" href="#">Обувь</a></li>
-          <li class="menu__item"><a class="menu__link" href="#">Игрушки</a></li>
-          <li class="menu__item">
-            <a class="menu__link" href="#">Аксессуары</a>
-          </li>
-          <li class="menu__item">
-            <a class="menu__link" href="#">Большие размеры</a>
-          </li>
-          <li class="menu__item">
-            <a class="menu__link" href="#">Дополнительно</a>
-          </li>
-          <li class="menu__item"><a class="menu__link" href="#">Акции</a></li>
+          <MenuCategoryItem
+            v-for="(item, index) in parentCategories"
+            :key="index"
+            :name="item.name"
+            :id="item.id"
+            :slug="item.slug"
+          />
         </ul>
       </div>
       <div class="leftPanel-right">
@@ -160,29 +76,6 @@
             <li class="menu__item">
               <a class="menu__link" href="#">Блузки и рубашки</a>
             </li>
-            <li class="menu__item"><a class="menu__link" href="#">Майки</a></li>
-            <li class="menu__item">
-              <a class="menu__link" href="#">Костюмы</a>
-            </li>
-            <li class="menu__item"><a class="menu__link" href="#">Брюки</a></li>
-            <li class="menu__item">
-              <a class="menu__link" href="#">Джинсы</a>
-            </li>
-            <li class="menu__item"><a class="menu__link" href="#">Юбки</a></li>
-            <li class="menu__item">
-              <a class="menu__link" href="#">Пиджаки и жакеты</a>
-            </li>
-            <li class="menu__item">
-              <a class="menu__link" href="#">Платья и сарафаны</a>
-            </li>
-            <li class="menu__item"><a class="menu__link" href="#">Юбки</a></li>
-            <li class="menu__item"><a class="menu__link" href="#">Шорты</a></li>
-            <li class="menu__item">
-              <a class="menu__link" href="#">Свитшоты, худи</a>
-            </li>
-            <li class="menu__item">
-              <a class="menu__link" href="#">Верхняя одежда</a>
-            </li>
           </ul>
         </div>
       </div>
@@ -191,11 +84,21 @@
 </template>
 
 <script>
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
+import MenuCategoryItem from "./MenuCategoryItem.vue";
 export default {
+  components: {
+    MenuCategoryItem,
+  },
   setup() {
     const store = useStore();
+    store.dispatch("getCategories");
+
+    const parentCategories = computed(() => {
+      return store.getters.parentCategories;
+    });
+
     const isMenuOpen = computed(() => {
       return store.state.openHeaderMenu;
     });
@@ -207,10 +110,13 @@ export default {
     return {
       closeMenu,
       isMenuOpen,
+      parentCategories,
     };
   },
 };
 </script>
 
-<style>
+<style lang="sass">
+.menu__link--selected
+  opacity: 0.5
 </style>

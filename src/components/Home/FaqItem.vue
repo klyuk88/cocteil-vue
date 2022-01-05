@@ -1,5 +1,5 @@
 <template>
-  <div class="faq-list__item" @click="openFaqItem()">
+  <div class="faq-list__item" @click="openFaqItem">
     <div class="faq-item">
       <div class="faq-item__head">
         <div class="faq-item__question">{{ title }}</div>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import {ref} from 'vue'
+import {ref, computed} from 'vue'
 export default {
   props: ['title', 'answer'],
   setup(props) {

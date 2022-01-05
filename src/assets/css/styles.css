@@ -1332,7 +1332,7 @@ svg {
 }
 
 .section-title {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   line-height: 87.3%;
   font-weight: 300;
 }
@@ -1393,7 +1393,7 @@ p {
 }
 
 .breadcrumbs-list__item {
-  font-size: 1.25rem;
+  font-size: 1rem;
   line-height: 1.4375rem;
   color: #514A7E;
 }
@@ -2548,7 +2548,7 @@ p {
 .catalog-sorting {
   margin-bottom: 3.75rem;
   display: flex;
-  font-size: 1.25rem;
+  font-size: 1rem;
   line-height: 1.4375rem;
 }
 
@@ -2580,7 +2580,7 @@ p {
 }
 
 .catalog-filter__title {
-  font-size: 1.25rem;
+  font-size: 1rem;
   line-height: 1.4375rem;
   cursor: pointer;
   position: relative;
@@ -3082,7 +3082,7 @@ p {
 }
 
 .product-art {
-  font-size: 1.25rem;
+  font-size: 1rem;
   line-height: 1.4375rem;
   color: #7D7D7D;
 }
@@ -3178,8 +3178,8 @@ p {
 
 .product-price__value {
   font-weight: 300;
-  font-size: 2.5rem;
-  margin-bottom: 2.4375rem;
+  font-size: 2rem;
+  margin-bottom: 2rem;
 }
 
 .product-price__title {
@@ -3187,9 +3187,9 @@ p {
 }
 
 .product-group-title {
-  font-size: 1.25rem;
-  line-height: 1.4375rem;
-  margin-bottom: 0.9375rem;
+  font-size: 1rem;
+  line-height: 1.4rem;
+  margin-bottom: 1rem;
 }
 
 .product-colors {
@@ -3269,8 +3269,8 @@ p {
 
 .product-link {
   display: inline-block;
-  font-size: 1.125rem;
-  line-height: 1.3125rem;
+  font-size: 1rem;
+  line-height: 1.4rem;
   color: #514A7E;
   border-bottom: 1px solid #514A7E;
 }
@@ -3285,7 +3285,8 @@ p {
 
 .product-actions {
   display: flex;
-  margin-bottom: 2.4375rem;
+  align-items: center;
+  margin-bottom: 2rem;
 }
 
 .product-cart {
@@ -3305,8 +3306,8 @@ p {
 }
 
 .product-favorite svg {
-  width: 2.3125rem;
-  height: 2.3125rem;
+  width: 1rem;
+  height: 1rem;
   fill: #514A7E;
 }
 
@@ -3710,13 +3711,16 @@ p {
   bottom: 0;
   left: 100%;
   background: #121212;
-  transform: translateX(-100%);
-  transition: transform .3s;
-  pointer-events: none;
-  z-index: -1;
-  visibility: hidden;
+  display: none;
   padding-top: 7.375rem;
+  transition: opacity .5s ease;
+  opacity: 1;
 }
+
+.menu__item--active .dropdown-menu {
+  display: block;
+}
+
 
 .dropdown-menu--open {
   visibility: visible;
@@ -3733,12 +3737,7 @@ p {
   margin-bottom: 1.25rem;
 }
 
-.menu__item--active .dropdown-menu {
-  visibility: visible;
-  z-index: 1;
-  pointer-events: initial;
-  transform: translateX(0);
-}
+
 
 .menu__link {
   display: inline-block;
@@ -3748,11 +3747,6 @@ p {
   transition: 0s;
 }
 
-.menu__link--selected {
-  font-weight: normal;
-  font-size: 1.25rem;
-  line-height: 1.4375rem;
-}
 
 .bottomPanel {
   position: fixed;
@@ -5261,10 +5255,6 @@ p {
     line-height: 1rem;
   }
 
-  .menu__link--selected {
-    font-size: 1rem;
-    line-height: 1.125rem;
-  }
 
   .dropdown-menu {
     width: 50%;

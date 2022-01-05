@@ -1,26 +1,35 @@
 <template>
   <div class="stocks-slider__item swiper-slide">
     <div class="card">
-      <a class="card__img" href="#">
+      <router-link
+      :to="{name: 'Product', params: {id}}"
+        custom
+        v-slot="{href, navigate}"
+      >
+      <a class="card__img" :href="href" @click="navigate">
           <img
             :src="thumbnail"
             :alt="title"
           />
       ></a>
+       </router-link>
       <div class="card__info">
         <div class="card__info-left">
           <div class="card__price">
             <div class="card__price-new">{{price}} р</div>
             <div class="card__price-old">{{salePrice}} р</div>
           </div>
-          <a class="card__title" href="#">{{title}}</a
-          ><a class="card__btn" href="#"
-            >Подробнее
+          <router-link :class="'card__title'" :to="{name: 'Product', params: {id}}">
+            {{title}}
+          </router-link>
+          <router-link :class="'card__btn'" :to="{name: 'Product', params: {id}}">
+            Подробнее
             <svg class="svg-sprite-icon icon-arrow-2">
               <use
                 xlink:href="@/assets/images/svg/symbol/sprite.svg#arrow-2"
               ></use></svg
-          ></a>
+          >
+          </router-link>
         </div>
         <div class="card__info-right">
           <div class="card__controls">
@@ -73,10 +82,14 @@
 </template>
 <script>
 export default {
-    props: ['title','price','salePrice','thumbnail'],
-    setup(props) {
-        
-    }
+    props: {
+      title: String,
+      price: String,
+      salePrice: String,
+      thumbnail: String,
+      slug: String,
+      id: Number
+    },
 };
 </script>
 <style lang="sass">
