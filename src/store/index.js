@@ -12,8 +12,12 @@ export default createStore({
   state: {
     openHeaderMenu: false,
     products: [],
+    product: {},
+    productsOfCategory: [],
+    upSellProducts: [],
     categories: [],
-
+    category: {},
+    oneProductReviews: [],
   },
   getters: {
     salePraceProducts(state) {
@@ -21,6 +25,12 @@ export default createStore({
     },
     parentCategories(state) {
       return state.categories.filter(item => item.parent === 0 && item.count > 0)
+    },
+    calcRaiting(state) {
+      return Math.round(state.product.average_rating) === 6 ? 5 : Math.round(state.product.average_rating)
+    },
+    getChildCategories: (state) => (id) => {
+      return state.categories.filter(category => category.parent === id && category.count > 0)
     },
   },
   actions: {
@@ -38,10 +48,42 @@ export default createStore({
         commit('setCategories', resData)
       }
     },
+    async getProductReviews({commit}, id) {
+      let res = await fetch(`${URL}/products/reviews?product=${id}&${authParams}`);
+      if (res.ok) {
+        let resData = await res.json();
+        commit('setOneProductReviews', resData)
+      }
+    },
+    async getCategory({commit}, slug) {
+      let res = await fetch(`${URL}/products/categories?slug=${slug}&${authParams}`);
+      if (res.ok) {
+        let resData = await res.json();
+        commit('setCategory', resData)
+      }
+    },
+
+    async getProductOfCategory({commit}, id) {
+      let res = await fetch(`${URL}/products?category=${id}&${authParams}`);
+      if (res.ok) {
+        let resData = await res.json();
+        commit('setProductOfCategory', resData)
+      }
+    }
+
 
 
   },
   mutations: {
+    setProductOfCategory(state, items) {
+      state.productsOfCategory = items
+    },
+    setCategory(state, items) {
+      state.category = items[0]
+    },
+    setOneProductReviews(state, items) {
+      state.oneProductReviews = items
+    },
     openMenu(state) {
       state.openHeaderMenu = true
     },
@@ -54,7 +96,22 @@ export default createStore({
     setCategories(state, items) {
       state.categories = items
     },
+    setProduct(state, slug) {
+      state.product = state.products.find(product => product.slug === slug)
+    },
+    setUpSellProducts(state, ids) {
+      ids.forEach(id => {
+        state.upSellProducts.push(state.products.find(product => product.id === id))
+      })
+    },
+    clearUpSellProducts(state) {
+      state.upSellProducts = []
+    },
   },
 
   modules: {}
 })
+
+
+
+

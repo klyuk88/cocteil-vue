@@ -93,7 +93,7 @@ export default {
   },
   setup() {
     const store = useStore();
-    store.dispatch("getCategories");
+    store.dispatch("getCategories")
 
     const parentCategories = computed(() => {
       return store.getters.parentCategories;

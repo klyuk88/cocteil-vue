@@ -37,23 +37,3 @@ export default {
 
 <style>
 </style>
-
-
-
-      const getProducts = async () => {
-        let res = await fetch(process.env.VUE_APP_API_URL + "/products", {
-          headers: {
-            'Authorization': "Basic " + process.env.VUE_APP_API_KEY,
-          },
-        });
-        if (res.ok) {
-          let resData = await res.json();
-          console.log(resData);
-        } else {
-          console.log('ddf');
-        }
-      };
-
-    onMounted(() => {
-      getProducts();
-    });

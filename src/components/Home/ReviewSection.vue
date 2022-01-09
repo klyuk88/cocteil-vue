@@ -1,7 +1,7 @@
 <template>
-  <div class="reviews section">
+  <div class="reviews section" id="reviews">
     <div class="container">
-      <div class="reviews__title section-title">Отзывы о товаре</div>
+      <div class="reviews__title section-title">Отзывы</div>
       <div class="reviews-content flex">
         <div class="reviews-content__left">
           <Swiper
@@ -14,570 +14,44 @@
               prevEl: '',
             }"
           >
-            <SwiperSlide>
-              <div class="reviews-slider__slide swiper-slide">
-                <div class="reviews-card">
-                  <div class="reviews-card__left">
-                    <div class="reviews-card__img">
-                      <picture>
-                        <source
-                          srcset="@/assets/images/content/reviews-1.webp"
-                          type="image/webp"
-                        />
-                        <img
-                          src="@/assets/images/content/reviews-1.png"
-                          width="94"
-                          height="94"
-                          alt="img"
-                        />
-                      </picture>
-                    </div>
-                  </div>
-                  <div class="reviews-card__right">
-                    <div class="reviews-card__rating flex">
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                    </div>
-                    <div class="reviews-card__txt">
-                      Amet minim mollit non deserunt ullamco est sit aliqua
-                      dolor do amet sint. Velit officia consequat duis enim
-                      velit mollit. Exercitation veniam consequat sunt nostrud
-                      amet.
-                    </div>
-                    <div class="reviews-card__group flex">
-                      <div class="reviews-card__name">Анна Котлова</div>
-                      <div class="reviews-card__date">23.05.2021</div>
-                    </div>
+            <SwiperSlide v-for="(review, index) in reviews" :key="index">
+              <div class="reviews-card">
+                <div class="reviews-card__left">
+                  <div class="reviews-card__img">
+                    <img
+                      :src="review.reviewer_avatar_urls['96']"
+                      width="94"
+                      height="94"
+                      alt="img"
+                    />
                   </div>
                 </div>
-              </div>
-            </SwiperSlide>
-
-            <SwiperSlide>
-              <div class="reviews-slider__slide swiper-slide">
-                <div class="reviews-card">
-                  <div class="reviews-card__left">
-                    <div class="reviews-card__img">
-                      <picture>
-                        <source
-                          srcset="@/assets/images/content/reviews-1.webp"
-                          type="image/webp"
-                        />
-                        <img
-                          src="@/assets/images/content/reviews-1.png"
-                          width="94"
-                          height="94"
-                          alt="img"
-                        />
-                      </picture>
+                <div class="reviews-card__right">
+                  <div class="reviews-card__rating flex">
+                    <div
+                    class="reviews-card__rating-item centered"
+                    v-for="(item, index) in review.rating" :key="index"
+                    >
+                      <svg class="svg-sprite-icon icon-star">
+                        <use
+                          xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
+                        ></use>
+                      </svg>
                     </div>
                   </div>
-                  <div class="reviews-card__right">
-                    <div class="reviews-card__rating flex">
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                    </div>
-                    <div class="reviews-card__txt">
-                      Amet minim mollit non deserunt ullamco est sit aliqua
-                      dolor do amet sint. Velit officia consequat duis enim
-                      velit mollit. Exercitation veniam consequat sunt nostrud
-                      amet.
-                    </div>
-                    <div class="reviews-card__group flex">
-                      <div class="reviews-card__name">Анна Котлова</div>
-                      <div class="reviews-card__date">23.05.2021</div>
-                    </div>
+                  <div class="reviews-card__txt">
+                    {{ review.review }}
                   </div>
-                </div>
-              </div>
-            </SwiperSlide>
-
-            <SwiperSlide>
-              <div class="reviews-slider__slide swiper-slide">
-                <div class="reviews-card">
-                  <div class="reviews-card__left">
-                    <div class="reviews-card__img">
-                      <picture>
-                        <source
-                          srcset="@/assets/images/content/reviews-1.webp"
-                          type="image/webp"
-                        />
-                        <img
-                          src="@/assets/images/content/reviews-1.png"
-                          width="94"
-                          height="94"
-                          alt="img"
-                        />
-                      </picture>
-                    </div>
-                  </div>
-                  <div class="reviews-card__right">
-                    <div class="reviews-card__rating flex">
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                    </div>
-                    <div class="reviews-card__txt">
-                      Amet minim mollit non deserunt ullamco est sit aliqua
-                      dolor do amet sint. Velit officia consequat duis enim
-                      velit mollit. Exercitation veniam consequat sunt nostrud
-                      amet.
-                    </div>
-                    <div class="reviews-card__group flex">
-                      <div class="reviews-card__name">Анна Котлова</div>
-                      <div class="reviews-card__date">23.05.2021</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-
-            <SwiperSlide>
-              <div class="reviews-slider__slide swiper-slide">
-                <div class="reviews-card">
-                  <div class="reviews-card__left">
-                    <div class="reviews-card__img">
-                      <picture>
-                        <source
-                          srcset="@/assets/images/content/reviews-1.webp"
-                          type="image/webp"
-                        />
-                        <img
-                          src="@/assets/images/content/reviews-1.png"
-                          width="94"
-                          height="94"
-                          alt="img"
-                        />
-                      </picture>
-                    </div>
-                  </div>
-                  <div class="reviews-card__right">
-                    <div class="reviews-card__rating flex">
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                      <div class="reviews-card__rating-item centered">
-                        <svg class="svg-sprite-icon icon-star">
-                          <use
-                            xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                          ></use>
-                        </svg>
-                      </div>
-                    </div>
-                    <div class="reviews-card__txt">
-                      Amet minim mollit non deserunt ullamco est sit aliqua
-                      dolor do amet sint. Velit officia consequat duis enim
-                      velit mollit. Exercitation veniam consequat sunt nostrud
-                      amet.
-                    </div>
-                    <div class="reviews-card__group flex">
-                      <div class="reviews-card__name">Анна Котлова</div>
-                      <div class="reviews-card__date">23.05.2021</div>
+                  <div class="reviews-card__group flex">
+                    <div class="reviews-card__name">{{ review.reviewer }}</div>
+                    <div class="reviews-card__date">
+                      {{ new Date(review.date_created).toLocaleDateString() }}
                     </div>
                   </div>
                 </div>
               </div>
             </SwiperSlide>
           </Swiper>
-
-          <!-- <div class="reviews-slider swiper-container"> 
-                  <div class="swiper-wrapper"> 
-                    <div class="reviews-slider__slide swiper-slide"> 
-                      <div class="reviews-card">
-                        <div class="reviews-card__left"> 
-                          <div class="reviews-card__img"> 
-                            <picture> 
-                              <source srcset="@/assets/images/content/reviews-1.webp" type="image/webp"><img src="@/assets/images/content/reviews-1.png" width="94" height="94" alt="img">
-                            </picture>
-                          </div>
-                        </div>
-                        <div class="reviews-card__right">
-                          <div class="reviews-card__rating flex">
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                          </div>
-                          <div class="reviews-card__txt">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</div>
-                          <div class="reviews-card__group flex"> 
-                            <div class="reviews-card__name">Анна Котлова</div>
-                            <div class="reviews-card__date">23.05.2021</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="reviews-slider__slide swiper-slide"> 
-                      <div class="reviews-card">
-                        <div class="reviews-card__left"> 
-                          <div class="reviews-card__img"> 
-                            <picture> 
-                              <source srcset="@/assets/images/content/reviews-2.webp" type="image/webp"><img src="@/assets/images/content/reviews-2.png" width="94" height="94" alt="img">
-                            </picture>
-                          </div>
-                        </div>
-                        <div class="reviews-card__right">
-                          <div class="reviews-card__rating flex">
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                          </div>
-                          <div class="reviews-card__txt">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</div>
-                          <div class="reviews-card__group flex"> 
-                            <div class="reviews-card__name">Анна Котлова</div>
-                            <div class="reviews-card__date">23.05.2021</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="reviews-slider__slide swiper-slide"> 
-                      <div class="reviews-card">
-                        <div class="reviews-card__left"> 
-                          <div class="reviews-card__img"> 
-                            <picture> 
-                              <source srcset="@/assets/images/content/reviews-1.webp" type="image/webp"><img src="@/assets/images/content/reviews-1.png" width="94" height="94" alt="img">
-                            </picture>
-                          </div>
-                        </div>
-                        <div class="reviews-card__right">
-                          <div class="reviews-card__rating flex">
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                          </div>
-                          <div class="reviews-card__txt">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</div>
-                          <div class="reviews-card__group flex"> 
-                            <div class="reviews-card__name">Анна Котлова</div>
-                            <div class="reviews-card__date">23.05.2021</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="reviews-slider__slide swiper-slide"> 
-                      <div class="reviews-card">
-                        <div class="reviews-card__left"> 
-                          <div class="reviews-card__img"> 
-                            <picture> 
-                              <source srcset="@/assets/images/content/reviews-2.webp" type="image/webp"><img src="@/assets/images/content/reviews-2.png" width="94" height="94" alt="img">
-                            </picture>
-                          </div>
-                        </div>
-                        <div class="reviews-card__right">
-                          <div class="reviews-card__rating flex">
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                          </div>
-                          <div class="reviews-card__txt">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</div>
-                          <div class="reviews-card__group flex"> 
-                            <div class="reviews-card__name">Анна Котлова</div>
-                            <div class="reviews-card__date">23.05.2021</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="reviews-slider__slide swiper-slide"> 
-                      <div class="reviews-card">
-                        <div class="reviews-card__left"> 
-                          <div class="reviews-card__img"> 
-                            <picture> 
-                              <source srcset="@/assets/images/content/reviews-1.webp" type="image/webp"><img src="@/assets/images/content/reviews-1.png" width="94" height="94" alt="img">
-                            </picture>
-                          </div>
-                        </div>
-                        <div class="reviews-card__right">
-                          <div class="reviews-card__rating flex">
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                          </div>
-                          <div class="reviews-card__txt">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</div>
-                          <div class="reviews-card__group flex"> 
-                            <div class="reviews-card__name">Анна Котлова</div>
-                            <div class="reviews-card__date">23.05.2021</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="reviews-slider__slide swiper-slide"> 
-                      <div class="reviews-card">
-                        <div class="reviews-card__left"> 
-                          <div class="reviews-card__img"> 
-                            <picture> 
-                              <source srcset="@/assets/images/content/reviews-2.webp" type="image/webp"><img src="@/assets/images/content/reviews-2.png" width="94" height="94" alt="img">
-                            </picture>
-                          </div>
-                        </div>
-                        <div class="reviews-card__right">
-                          <div class="reviews-card__rating flex">
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                            <div class="reviews-card__rating-item centered"> 
-                              <svg class="svg-sprite-icon icon-star">
-                                <use xlink:href="@/assets/images/svg/symbol/sprite.svg#star"></use>
-                              </svg>
-                            </div>
-                          </div>
-                          <div class="reviews-card__txt">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</div>
-                          <div class="reviews-card__group flex"> 
-                            <div class="reviews-card__name">Анна Котлова</div>
-                            <div class="reviews-card__date">23.05.2021</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="reviews-slider__pagination swiper-pagination"></div>
-                </div> -->
         </div>
         <div class="reviews-content__right">
           <button class="reviews-btn centered" type="button">
@@ -589,7 +63,8 @@
           </button>
         </div>
       </div>
-      <div class="reviews-foot">
+      <div class="reviews-foot"
+      >
         <a class="reviews-foot__btn btn" href="#">Добавить отзыв </a>
       </div>
     </div>
@@ -609,8 +84,13 @@ export default {
     Swiper,
     SwiperSlide,
   },
+  props: {
+    reviews: Array,
+  },
   setup() {
     const modules = [Navigation];
+
+
 
     return {
       modules,
@@ -620,5 +100,7 @@ export default {
 </script>
 
 <style lang="sass">
-
+.reviews-card__img
+  img
+    border-radius: 50%
 </style>

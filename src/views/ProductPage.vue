@@ -13,7 +13,9 @@
             >
           </div>
           <div class="product-mobile__col">
-            <div class="product-mobile__title">Платье женское</div>
+            <div class="product-mobile__title">
+              {{ store.state.product.name }}
+            </div>
           </div>
           <div class="product-mobile__col">
             <a class="product-mobile__link" href="#">
@@ -28,20 +30,23 @@
       <div class="container">
         <div class="product-head">
           <div class="product-head__back">
-            <a class="cart-back centered" href="#">
+            <a class="cart-back centered" href="#" @click.prevent="goBack">
               <svg class="svg-sprite-icon icon-arrow-5">
                 <use
                   xlink:href="@/assets/images/svg/symbol/sprite.svg#arrow-5"
                 ></use></svg
             ></a>
           </div>
+
           <BreadCrumbs />
         </div>
 
         <!-- название  -->
         <div class="product-title">
-          <h1 class="section-title">Блузка женская</h1>
-          <div class="product-art">Арт 06578990-086</div>
+          <h1 class="section-title">{{ store.state.product.name }}</h1>
+          <div class="product-art" v-if="store.state.product.sku">
+            Арт {{ store.state.product.sku }}
+          </div>
         </div>
 
         <div class="product-content">
@@ -57,36 +62,12 @@
                   prevEl: '.product-gallery__prev',
                 }"
               >
-                <SwiperSlide>
+                <SwiperSlide
+                  v-for="(image, index) in store.state.product.images"
+                  :key="index"
+                >
                   <div class="product-gallery__img">
-                    <picture>
-                      <source
-                        srcset="@/assets/images/content/product.webp"
-                        type="image/webp"
-                      />
-                      <img
-                        src="@/assets/images/content/product.jpg"
-                        width="575"
-                        height="572"
-                        alt="img"
-                      />
-                    </picture>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div class="product-gallery__img">
-                    <picture>
-                      <source
-                        srcset="@/assets/images/content/product.webp"
-                        type="image/webp"
-                      />
-                      <img
-                        src="@/assets/images/content/product.jpg"
-                        width="575"
-                        height="572"
-                        alt="img"
-                      />
-                    </picture>
+                    <img :src="image.src" :alt="image.name" />
                   </div>
                 </SwiperSlide>
               </Swiper>
@@ -113,39 +94,13 @@
               :slidesPerView="4"
               @swiper="setThumbsSwiper"
             >
-              <SwiperSlide>
+              <SwiperSlide
+                v-for="(image, index) in store.state.product.images"
+                :key="index"
+              >
                 <div class="product-thumbs__slide">
                   <div class="product-thumbs__img">
-                    <picture>
-                      <source
-                        srcset="@/assets/images/content/thumb-1.webp"
-                        type="image/webp"
-                      />
-                      <img
-                        src="@/assets/images/content/thumb-1.jpg"
-                        width="131"
-                        height="110"
-                        alt="img"
-                      />
-                    </picture>
-                  </div>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div class="product-thumbs__slide">
-                  <div class="product-thumbs__img">
-                    <picture>
-                      <source
-                        srcset="@/assets/images/content/thumb-1.webp"
-                        type="image/webp"
-                      />
-                      <img
-                        src="@/assets/images/content/thumb-1.jpg"
-                        width="131"
-                        height="110"
-                        alt="img"
-                      />
-                    </picture>
+                    <img :src="image.src" :alt="image.name" />
                   </div>
                 </div>
               </SwiperSlide>
@@ -153,76 +108,58 @@
           </div>
           <div class="product-content__right">
             <div class="product-mobile-title">
-              <div class="product-mobile-title__txt">Платье женское</div>
+              <div class="product-mobile-title__txt">
+                {{ store.state.product.name }}
+              </div>
               <div class="product-mobile-title__art">Арт 09456784</div>
             </div>
             <div class="product-price">
               <div class="product-price__title product-group-title">
                 Стоимость
               </div>
-              <div class="product-price__value">50.00 б.р.</div>
-            </div>
-            <div class="product-colors">
-              <div class="product-colors__title product-group-title">Цвета</div>
-              <div class="product-colors__list">
-                <a
-                  class="product-colors__link product-colors__link--white"
-                  href="#"
-                >
-                </a
-                ><a
-                  class="product-colors__link product-colors__link--black"
-                  href="#"
-                >
-                </a
-                ><a
-                  class="product-colors__link product-colors__link--green"
-                  href="#"
-                >
-                </a
-                ><a
-                  class="product-colors__link product-colors__link--purp"
-                  href="#"
-                >
-                </a
-                ><a
-                  class="product-colors__link product-colors__link--yellow"
-                  href="#"
-                >
-                </a>
+              <div class="product-price__value">
+                {{ store.state.product.price }} б.р.
               </div>
             </div>
-            <div class="product-size">
-              <div class="product-size__group">
-                <div class="product-size__title product-group-title">
-                  Размер
-                </div>
-                <div class="product-size__list">
-                  <div class="product-size__item">
-                    <div class="product-size__item-value">S</div>
-                    <div class="product-size__item-number">42</div>
-                  </div>
-                  <div class="product-size__item">
-                    <div class="product-size__item-value">M</div>
-                    <div class="product-size__item-number">44</div>
-                  </div>
-                  <div class="product-size__item">
-                    <div class="product-size__item-value">L</div>
-                    <div class="product-size__item-number">46</div>
-                  </div>
-                  <div class="product-size__item">
-                    <div class="product-size__item-value">XL</div>
-                    <div class="product-size__item-number">48</div>
-                  </div>
+
+            <div class="product-attributes-wrap">
+              <div
+                class="product-attribute"
+                v-for="(attr, index) in store.state.product.attributes"
+                :key="index"
+              >
+                <h4 class="product-attribute-title">
+                  {{attr.name}}
+                </h4>
+                <div class="product-attribute-list-wrap">
+                  <img
+                    src="@/assets/images/arrow-select.svg"
+                    alt=""
+                    class="product-attribute-select-arrow"
+                  />
+                  <select
+                    :name="attr.name"
+                    id=""
+                    class="product-attribute-list"
+                  >
+                    <option
+                    v-for="(option, index) in attr.options" :key="index"
+                    :value="option"
+                    >{{option}}
+                    </option>
+
+                  </select>
                 </div>
               </div>
-              <a
-                class="product-size__link product-link"
-                href="#sizeModal"
-                data-bs-toggle="modal"
-                >Таблица размеров
-              </a>
             </div>
+
+            <a
+              class="product-size__link product-link"
+              href="#sizeModal"
+              data-bs-toggle="modal"
+              >Таблица размеров
+            </a>
+          
             <div class="product-actions">
               <a class="product-cart product-cart--hidden btn" href="#"
                 >Купить сейчас</a
@@ -239,37 +176,14 @@
                   ></use></svg
               ></a>
             </div>
-            <div class="product-rating">
+            <!-- рейтинг  -->
+            <div class="product-rating"
+            v-if="store.state.oneProductReviews && store.state.product.reviews_allowed"
+            >
               <div class="product-rating__list">
-                <div class="product-rating__star">
-                  <svg class="svg-sprite-icon icon-star">
-                    <use
-                      xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                    ></use>
-                  </svg>
-                </div>
-                <div class="product-rating__star">
-                  <svg class="svg-sprite-icon icon-star">
-                    <use
-                      xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                    ></use>
-                  </svg>
-                </div>
-                <div class="product-rating__star">
-                  <svg class="svg-sprite-icon icon-star">
-                    <use
-                      xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                    ></use>
-                  </svg>
-                </div>
-                <div class="product-rating__star">
-                  <svg class="svg-sprite-icon icon-star">
-                    <use
-                      xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                    ></use>
-                  </svg>
-                </div>
-                <div class="product-rating__star">
+                <div class="product-rating__star"
+                  v-for="(item, index) in store.getters.calcRaiting" :key="index"
+                >
                   <svg class="svg-sprite-icon icon-star">
                     <use
                       xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
@@ -278,31 +192,38 @@
                 </div>
               </div>
               <div class="product-rating__links">
-                <a class="product-rating__link product-link" href="#">
-                  Смотреть все отзывы</a
-                ><a
-                  class="product-rating__link product-link product-link--hidden"
-                  href="#"
+
+                <a class="product-rating__link product-link" href="#reviews"
+                @click.prevent="toAnchor"
                 >
-                  Добавить отзыв</a
-                >
+                  Смотреть отзывы
+                </a>
+
               </div>
             </div>
+
+
             <div class="product-desc">
               <div class="product-desc__title">Описание</div>
               <div class="product-desc__txt">
-                <p>
-                  Здесь будет какое-то неболшое описание о вещи <br />Здесь
-                  будет какое-то неболшое описание о вещи
-                </p>
+                {{ store.state.product.description }}
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- отзывы  -->
+    <ReviewSection
+    v-if="store.state.oneProductReviews && store.state.product.reviews_allowed"
+    :reviews="store.state.oneProductReviews"
+    />
+
+    <!-- отзывы  -->
+
     <!-- рекомендуемые товары -->
-    <div class="stocks section">
+    <div class="stocks section" v-if="store.state.upSellProducts.length">
       <div class="container">
         <div class="stocks-title section-title">С этим товаром покупают</div>
       </div>
@@ -320,13 +241,17 @@
                 prevEl: '.stocks-slider__prev',
               }"
             >
-              <SwiperSlide>
+              <SwiperSlide
+                v-for="(item, index) in store.state.upSellProducts"
+                :key="index"
+              >
                 <ProductCard
-                  title="Название"
-                  price="200"
-                  sale-price="100"
-                  thumbnail="http://localhost:8080/img/card-4.fdf548c7.webp"
-                  slug="nazvanie"
+                  :title="item.name"
+                  :price="item.regular_price"
+                  :sale-price="item.sale_price"
+                  :thumbnail="item.images[0].src"
+                  :slug="item.slug"
+                  :id="item.id"
                 />
               </SwiperSlide>
             </Swiper>
@@ -348,37 +273,76 @@
         </div>
       </div>
     </div>
+    <!-- рекомендуемые  -->
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed, onMounted, reactive, watch, onUnmounted } from "vue";
+
 import BreadCrumbs from "@/components/Product/BreadCrumbs.vue";
+import ProductCard from "../components/Base/ProductCard.vue";
+import ReviewSection from '../components/Home/ReviewSection.vue'
+
 import { Navigation, Thumbs } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/vue/swiper-vue.js";
-import ProductCard from "../components/Base/ProductCard.vue";
-import {useRoute} from 'vue-router'
+import {gsap} from 'gsap';
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+import { useRoute, useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 export default {
-  components: { BreadCrumbs, Swiper, SwiperSlide, ProductCard },
+  components: { BreadCrumbs, Swiper, SwiperSlide, ProductCard, ReviewSection },
   setup(props) {
+    gsap.registerPlugin(ScrollToPlugin);
+    const route = useRoute();
+    const router = useRouter();
+    const store = useStore();
 
-    const route = useRoute()
-    console.log(route.params);
-    
+    store.dispatch("getProducts")
+    .then(() => {
+      store.commit("setProduct", route.params.slug);
+      if (store.state.product.upsell_ids.length) {
+        store.commit("setUpSellProducts", store.state.product.upsell_ids);
+      } else {
+        store.commit("clearUpSellProducts");
+      }
+
+
+    })
+    .then(() => {
+      store.dispatch('getProductReviews', store.state.product.id)
+
+    })
+
+    const toAnchor = () => {
+       gsap.to(window, {
+        duration: 1,
+        scrollTo: '#reviews',
+        ease: "power2",
+      });
+
+    }
+
+    const goBack = () => {
+      router.go(-1);
+    };
+
     const modules = [Navigation, Thumbs];
     const thumbsSwiper = ref(null);
     const setThumbsSwiper = (swiper) => {
       thumbsSwiper.value = swiper;
     };
 
-  
-
     return {
       modules,
       thumbsSwiper,
       setThumbsSwiper,
       Navigation,
+      store,
+      goBack,
+      toAnchor
     };
   },
 };
@@ -393,4 +357,53 @@ export default {
 
 .stocks-slider-wrap
   position: relative
+
+.product-gallery__img
+  width: 100%
+  position: relative
+  height: 700px
+  img
+    position: absolute
+    width: 100%
+    height: 100%
+    object-fit: cover
+
+// .product
+//   padding-bottom: 100px
+
+.product-attribute-list
+  appearance: none
+  background: transparent
+  padding: 10px
+  width: 100%
+  border: 1px solid #514A7E
+  width: 100%
+
+.product-attribute
+  margin-bottom: 20px
+
+.product-actions
+  margin-top: 30px
+
+.product-size__link
+  margin-top: 20px
+
+.product-attribute-list-wrap
+  position: relative
+  width: 100%
+  z-index: 1
+
+.product-attribute-select-arrow
+  position: absolute
+  right: 10px
+  top: 0
+  width: 10px
+  top: 50%
+  transform: translateY(-50%)
+  z-index: 10
+
+.product-attribute-title
+  font-size: 1.150rem
+  font-weight: 400
+
 </style>

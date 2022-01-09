@@ -1,35 +1,29 @@
 <template>
-  <div class="stocks-slider__item swiper-slide">
     <div class="card">
-      <router-link
-      :to="{name: 'Product', params: {id}}"
-        custom
-        v-slot="{href, navigate}"
-      >
-      <a class="card__img" :href="href" @click="navigate">
+      <a class="card__img" href="#" @click.prevent="goToProductPage">
           <img
             :src="thumbnail"
             :alt="title"
           />
-      ></a>
-       </router-link>
+      >
+      </a>
       <div class="card__info">
         <div class="card__info-left">
           <div class="card__price">
             <div class="card__price-new">{{price}} р</div>
             <div class="card__price-old">{{salePrice}} р</div>
           </div>
-          <router-link :class="'card__title'" :to="{name: 'Product', params: {id}}">
+          <a class="card__title" @click.prevent="goToProductPage">
             {{title}}
-          </router-link>
-          <router-link :class="'card__btn'" :to="{name: 'Product', params: {id}}">
+          </a>
+          <a class="card__btn" @click.prevent="goToProductPage">
             Подробнее
             <svg class="svg-sprite-icon icon-arrow-2">
               <use
                 xlink:href="@/assets/images/svg/symbol/sprite.svg#arrow-2"
               ></use></svg
           >
-          </router-link>
+          </a>
         </div>
         <div class="card__info-right">
           <div class="card__controls">
@@ -78,18 +72,33 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 <script>
+import {useRouter,} from 'vue-router'
 export default {
     props: {
       title: String,
       price: String,
       salePrice: String,
       thumbnail: String,
-      slug: String,
-      id: Number
+      slug: String
     },
+    setup(props) {
+      const router = useRouter()
+  
+      const goToProductPage = () => {
+        router.push({
+          name: 'product',
+          params: {
+            
+            slug: props.slug
+          }
+        })
+      }
+      return {
+        goToProductPage
+      }
+    }
 };
 </script>
 <style lang="sass">
