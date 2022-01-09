@@ -96,11 +96,14 @@
                 <li
                 v-for="(category, index) in childCategories" :key="index"
                 >
-                {{category.name}}
+                {{category.name}}<span>{{category.count}}</span>
                 </li>
             </ul>
 
             <form class="catalog-filter" action="/">
+
+            <FilterItemCatalog/>
+            
               <div class="catalog-filter__group">
                 <div class="catalog-filter__title">Цена, б.р</div>
                 <div class="catalog-filter__range">
@@ -111,254 +114,7 @@
                   <div id="filterSlider"></div>
                 </div>
               </div>
-              <div class="catalog-filter__group">
-                <div
-                  class="catalog-filter__title show-filter"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#filter1"
-                  aria-expanded="false"
-                >
-                  Размер
-                  <svg class="svg-sprite-icon icon-up">
-                    <use
-                      xlink:href="@/assets/images/svg/symbol/sprite.svg#up"
-                    ></use>
-                  </svg>
-                </div>
-                <div class="collapse" id="filter1">
-                  <div class="catalog-filter__dropdown">
-                    <div class="catalog-filter__list">
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >S</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >M</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >L</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >XL</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >2XL</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >3XL</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >36</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >38</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >40</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >42</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >44</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >46</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >48</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >50</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >52</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >54</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >56</span
-                        >
-                      </label>
-                      <label class="checkbox catalog-filter__checkbox">
-                        <input class="checkbox-input" type="checkbox" /><span
-                          class="checkbox-txt"
-                          >Универсальный</span
-                        >
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="catalog-filter__group">
-                <div
-                  class="catalog-filter__title show-filter"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#filter2"
-                  aria-expanded="false"
-                >
-                  Цвета
-                  <svg class="svg-sprite-icon icon-up">
-                    <use
-                      xlink:href="@/assets/images/svg/symbol/sprite.svg#up"
-                    ></use>
-                  </svg>
-                </div>
-                <div class="collapse" id="filter2">
-                  <div class="catalog-filter__colors">
-                    <div class="catalog-filter__colors-item">
-                      <label class="catalog-filter__colors-label">
-                        <input
-                          class="catalog-filter__colors-input"
-                          type="checkbox"
-                        /><span
-                          class="catalog-filter__colors-circle color-white"
-                        ></span>
-                      </label>
-                    </div>
-                    <div class="catalog-filter__colors-item">
-                      <label class="catalog-filter__colors-label">
-                        <input
-                          class="catalog-filter__colors-input"
-                          type="checkbox"
-                        /><span
-                          class="catalog-filter__colors-circle color-black"
-                        ></span>
-                      </label>
-                    </div>
-                    <div class="catalog-filter__colors-item">
-                      <label class="catalog-filter__colors-label">
-                        <input
-                          class="catalog-filter__colors-input"
-                          type="checkbox"
-                        /><span
-                          class="catalog-filter__colors-circle color-red"
-                        ></span>
-                      </label>
-                    </div>
-                    <div class="catalog-filter__colors-item">
-                      <label class="catalog-filter__colors-label">
-                        <input
-                          class="catalog-filter__colors-input"
-                          type="checkbox"
-                        /><span
-                          class="catalog-filter__colors-circle color-green"
-                        ></span>
-                      </label>
-                    </div>
-                    <div class="catalog-filter__colors-item">
-                      <label class="catalog-filter__colors-label">
-                        <input
-                          class="catalog-filter__colors-input"
-                          type="checkbox"
-                        /><span
-                          class="catalog-filter__colors-circle color-yellow"
-                        ></span>
-                      </label>
-                    </div>
-                    <div class="catalog-filter__colors-item">
-                      <label class="catalog-filter__colors-label">
-                        <input
-                          class="catalog-filter__colors-input"
-                          type="checkbox"
-                        /><span
-                          class="catalog-filter__colors-circle color-blue"
-                        ></span>
-                      </label>
-                    </div>
-                    <div class="catalog-filter__colors-item">
-                      <label class="catalog-filter__colors-label">
-                        <input
-                          class="catalog-filter__colors-input"
-                          type="checkbox"
-                        /><span
-                          class="catalog-filter__colors-circle color-gray"
-                        ></span>
-                      </label>
-                    </div>
-                    <div class="catalog-filter__colors-item">
-                      <label class="catalog-filter__colors-label">
-                        <input
-                          class="catalog-filter__colors-input"
-                          type="checkbox"
-                        /><span
-                          class="catalog-filter__colors-circle color-gray"
-                        ></span>
-                      </label>
-                    </div>
-                    <div class="catalog-filter__colors-item">
-                      <label class="catalog-filter__colors-label">
-                        <input
-                          class="catalog-filter__colors-input"
-                          type="checkbox"
-                        /><span
-                          class="catalog-filter__colors-circle color-gray"
-                        ></span>
-                      </label>
-                    </div>
-                    <div class="catalog-filter__colors-item">
-                      <label class="catalog-filter__colors-label">
-                        <input
-                          class="catalog-filter__colors-input"
-                          type="checkbox"
-                        /><span
-                          class="catalog-filter__colors-circle color-gray"
-                        ></span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              
             </form>
           </div>
 
@@ -406,9 +162,10 @@
 import { computed, onMounted, watch, onUnmounted, watchEffect } from "vue";
 import { useRoute, onBeforeRouteLeave } from "vue-router";
 import { useStore } from "vuex";
-import ProductCard from '@/components/Base/ProductCard.vue'
+import ProductCard from '../components/Base/ProductCard.vue'
+import FilterItemCatalog from '../components/FilterItemCatalog.vue';
 export default {
-  components: {ProductCard},
+  components: {ProductCard,FilterItemCatalog},
   setup(props) {
     const store = useStore();
     const route = useRoute();
@@ -433,35 +190,11 @@ export default {
 
     onMounted(() => {
       getData()
-      
     })
 
     onBeforeRouteLeave(() => {
       stop()
     })
-
-
-    // watch(
-    //   () => route.params.category,
-    //   (newSlug, Slug) => {
-    //     store.dispatch("getCategory", newSlug)
-    //     store.dispatch('getProductOfCategory', store.state.category.id)
-    //     store.dispatch("getCategories")
-    //   }
-    // );
-    
-
-    // store.dispatch("getCategory", route.params.category)
-    // .then(() => {
-    //   store.dispatch('getProductOfCategory', store.state.category.id)
-    //   store.dispatch("getCategories")
-    // })
-
-
-
-
-
-   
 
     return {
       store,
@@ -478,5 +211,9 @@ export default {
     font-size: 1rem
     cursor: pointer
     color: #514A7E
-
+    line-height: 1
+    span
+      font-size: 0.75rem
+      color: grey
+      margin-left: 15px
 </style>

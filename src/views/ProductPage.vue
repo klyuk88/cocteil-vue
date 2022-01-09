@@ -178,7 +178,7 @@
             </div>
             <!-- рейтинг  -->
             <div class="product-rating"
-            v-if="store.state.oneProductReviews && store.state.product.reviews_allowed"
+            v-if="store.state.oneProductReviews.length > 0 && store.state.product.reviews_allowed"
             >
               <div class="product-rating__list">
                 <div class="product-rating__star"
@@ -216,7 +216,7 @@
 
     <!-- отзывы  -->
     <ReviewSection
-    v-if="store.state.oneProductReviews && store.state.product.reviews_allowed"
+    v-if="store.state.oneProductReviews.length > 0 && store.state.product.reviews_allowed"
     :reviews="store.state.oneProductReviews"
     />
 

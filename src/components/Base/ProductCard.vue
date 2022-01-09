@@ -90,7 +90,6 @@ export default {
         router.push({
           name: 'product',
           params: {
-            
             slug: props.slug
           }
         })

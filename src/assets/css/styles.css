@@ -1298,6 +1298,7 @@ svg {
 
 .content--inner {
   padding-top: 0.75rem;
+  padding-bottom: 100px;
 }
 
 .content-title {
