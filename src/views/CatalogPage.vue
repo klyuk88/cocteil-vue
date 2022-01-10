@@ -96,18 +96,7 @@
                 <li
                 v-for="(category, index) in childCategories" :key="index"
                 >
-                <router-link
-                :to="{
-                  name: 'subCategory',
-                  params: {
-                    categoryName: store.state.category.slug,
-                    subCategoryId: category.id
-                  },
-                }"
-                >
-                    {{category.name}}<span>{{category.count}}</span>
-                </router-link>
-                
+                {{category.name}}<span>{{category.count}}</span>
                 </li>
             </ul>
 
@@ -170,8 +159,8 @@
 </template>
 
 <script>
-import { computed, onMounted, watchEffect } from "vue";
-import { useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from "vue-router";
+import { computed, onMounted, watch, onUnmounted, watchEffect } from "vue";
+import { useRoute, onBeforeRouteLeave } from "vue-router";
 import { useStore } from "vuex";
 import ProductCard from '../components/Base/ProductCard.vue'
 import FilterItemCatalog from '../components/FilterItemCatalog.vue';
@@ -181,9 +170,37 @@ export default {
     const store = useStore();
     const route = useRoute();
 
+<<<<<<< HEAD
     
 
 
+=======
+    const getData = async () => {
+      await store.dispatch("getCategory", route.params.categoryName)
+      await store.dispatch('getProductOfCategory', store.state.category.id)
+      await store.dispatch("getCategories")
+    }
+  
+    const childCategories = computed(() => {
+      return store.state.categories.filter(
+        (category) =>
+          category.parent === store.state.category.id && category.count > 0
+          );
+    });
+
+    const stop = watchEffect(() => {
+      getData()
+    })
+
+
+    onMounted(() => {
+      getData()
+    })
+
+    onBeforeRouteLeave(() => {
+      stop()
+    })
+>>>>>>> parent of 6b61eaf (catalogFilterCategory)
 
   
     return {

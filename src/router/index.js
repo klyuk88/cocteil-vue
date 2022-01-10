@@ -16,11 +16,6 @@ const routes = [
     component: CatalogPage,
   },
   {
-    path: '/shop/:categoryName/:subCategoryId',
-    name: 'subCategory',
-    component: CatalogPage,
-  },
-  {
     path: '/shop/products/:category?/:slug',
     name: 'product',
     component: ProductPage,
