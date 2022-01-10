@@ -170,11 +170,6 @@ export default {
     const store = useStore();
     const route = useRoute();
 
-<<<<<<< HEAD
-    
-
-
-=======
     const getData = async () => {
       await store.dispatch("getCategory", route.params.categoryName)
       await store.dispatch('getProductOfCategory', store.state.category.id)
@@ -200,10 +195,12 @@ export default {
     onBeforeRouteLeave(() => {
       stop()
     })
->>>>>>> parent of 6b61eaf (catalogFilterCategory)
 
   
     return {
+      store,
+      childCategories
+
      
     };
   },
