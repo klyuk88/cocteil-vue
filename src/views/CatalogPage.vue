@@ -181,48 +181,13 @@ export default {
     const store = useStore();
     const route = useRoute();
 
-    const getData = async () => {
-      await store.dispatch("getCategory", route.params.categoryName)
-      await store.dispatch('getProductOfCategory', store.state.category.id)
-      await store.dispatch("getCategories")
-    }
-
     
-    const subCategoryProducts = () => {
-      console.log(route.params.subCategoryId);
-      // store.dispatch("getCategory", route.params.subCategoryId)
-    }
+
+
+
   
-    const childCategories = computed(() => {
-      return store.state.categories.filter(
-        (category) =>
-          category.parent === store.state.category.id && category.count > 0
-          );
-    });
-
-    const stop = watchEffect(() => {
-      console.log('watch');
-      getData()
-
-
-    })
-
-    onMounted(() => {
-      getData()
-    })
-
-    onBeforeRouteUpdate(() => {
-      console.log('onBeforeRouteUpdate');
-    })
-
-    onBeforeRouteLeave(() => {
-      console.log('onBeforeRouteLeave');
-      stop()
-    })
-
     return {
-      store,
-      childCategories,
+     
     };
   },
 };
