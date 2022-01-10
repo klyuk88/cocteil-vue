@@ -1,5 +1,5 @@
 import {
-  createStore
+  createStore, storeKey
 } from 'vuex'
 
 const URL = process.env.VUE_APP_API_URL
@@ -17,6 +17,7 @@ export default createStore({
     upSellProducts: [],
     categories: [],
     category: {},
+    childCategories: [],
     oneProductReviews: [],
   },
   getters: {
@@ -75,6 +76,9 @@ export default createStore({
 
   },
   mutations: {
+    setChildCategories(state, id) {
+      state.childCategories = state.categories.filter(item => item.parent === id && item.count > 0)
+    },
     setProductOfCategory(state, items) {
       state.productsOfCategory = items
     },

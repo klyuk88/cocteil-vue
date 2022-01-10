@@ -299,6 +299,7 @@ export default {
     const route = useRoute();
     const router = useRouter();
     const store = useStore();
+    
 
     store.dispatch("getProducts")
     .then(() => {

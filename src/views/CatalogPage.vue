@@ -1,6 +1,5 @@
 <template>
   <div class="content content--inner">
- 
     <div class="catalog">
       <div class="catalog-mobile">
         <div class="catalog-mobile__inner">
@@ -89,21 +88,31 @@
         <div class="catalog-content">
           <!-- сайдбар  -->
           <div class="catalog-content__left">
-
-            <ul class="child-categories"
-            v-if="childCategories.length"
+            <ul
+              class="child-categories"
+              v-if="store.state.childCategories.length"
             >
-                <li
-                v-for="(category, index) in childCategories" :key="index"
-                >
-                {{category.name}}<span>{{category.count}}</span>
-                </li>
+              <li
+                v-for="(category, index) in store.state.childCategories"
+                :key="index"
+              >
+              <router-link
+              :to="{
+                name: 'category',
+                params: {
+                  categoryName: category.slug
+                }
+              }"
+              >
+              {{ category.name }}<span>{{ category.count }}</span>
+              </router-link>
+                
+              </li>
             </ul>
 
             <form class="catalog-filter" action="/">
+              <FilterItemCatalog />
 
-            <FilterItemCatalog/>
-            
               <div class="catalog-filter__group">
                 <div class="catalog-filter__title">Цена, б.р</div>
                 <div class="catalog-filter__range">
@@ -114,7 +123,6 @@
                   <div id="filterSlider"></div>
                 </div>
               </div>
-              
             </form>
           </div>
 
@@ -122,23 +130,22 @@
           <div class="catalog-content__right">
             <div class="catalog-list flex">
               <!-- список товаров  -->
-              <div class="catalog-list__item"
-              v-for="(item, index) in store.state.productsOfCategory" :key="index"
+              <div
+                class="catalog-list__item"
+                v-for="(item, index) in store.state.productsOfCategory"
+                :key="index"
               >
-                   <ProductCard
+                <ProductCard
                   :title="item.name"
                   :price="item.regular_price"
                   :sale-price="item.sale_price"
                   :thumbnail="item.images[0].src"
                   :slug="item.slug"
+                  :category="store.state.category.slug"
                   :id="item.id"
-                  />
-
+                />
               </div>
               <!-- catalog-list__item end -->
-
-             
-
             </div>
             <!-- список товаров  -->
           </div>
@@ -159,49 +166,44 @@
 </template>
 
 <script>
-import { computed, onMounted, watch, onUnmounted, watchEffect } from "vue";
-import { useRoute, onBeforeRouteLeave } from "vue-router";
+import {
+  ref,
+  reactive,
+  computed,
+  onMounted,
+  watch,
+  onUnmounted,
+  watchEffect,
+} from "vue";
+import { useRoute, onBeforeRouteLeave, useRouter } from "vue-router";
 import { useStore } from "vuex";
-import ProductCard from '../components/Base/ProductCard.vue'
-import FilterItemCatalog from '../components/FilterItemCatalog.vue';
+import ProductCard from "../components/Base/ProductCard.vue";
+import FilterItemCatalog from "../components/FilterItemCatalog.vue";
 export default {
-  components: {ProductCard,FilterItemCatalog},
-  setup(props) {
-    const store = useStore();
-    const route = useRoute();
+  components: { ProductCard, FilterItemCatalog },
 
-    const getData = async () => {
-      await store.dispatch("getCategory", route.params.categoryName)
-      await store.dispatch('getProductOfCategory', store.state.category.id)
-      await store.dispatch("getCategories")
-    }
-  
-    const childCategories = computed(() => {
-      return store.state.categories.filter(
-        (category) =>
-          category.parent === store.state.category.id && category.count > 0
-          );
-    });
+  setup(props) {
+    const route = useRoute();
+    const router = useRouter();
+    const store = useStore();
+
 
     const stop = watchEffect(() => {
-      getData()
+      store.dispatch("getCategory", route.params.categoryName).then(() => {
+      store.dispatch("getProductOfCategory", store.state.category.id);
+      store.commit("setChildCategories", store.state.category.id);
+    });
     })
 
-
-    onMounted(() => {
-      getData()
-    })
+    
 
     onBeforeRouteLeave(() => {
       stop()
     })
 
-  
+
     return {
       store,
-      childCategories
-
-     
     };
   },
 };
@@ -220,3 +222,11 @@ export default {
       color: grey
       margin-left: 15px
 </style>
+
+текущая категория по слагу из роутера
+дочерние категории текущей категории по ее айди
+список товаров по айди текущей категории
+спискок атрибутов и термины каждого
+
+при изминении слага роутера получать по новой все данные
+

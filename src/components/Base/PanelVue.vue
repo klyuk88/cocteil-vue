@@ -117,6 +117,9 @@ export default {
 </script>
 
 <style lang="sass">
+.menu__item
+  margin-bottom: 0
+
 .menu__link--selected
   opacity: 0.5
 </style>

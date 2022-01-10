@@ -71,4 +71,5 @@ export default {
 .dropdown-menu
   .menu__link:hover
     opacity: 0.5
+
 </style>

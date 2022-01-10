@@ -81,7 +81,8 @@ export default {
       price: String,
       salePrice: String,
       thumbnail: String,
-      slug: String
+      slug: String,
+      category: String
     },
     setup(props) {
       const router = useRouter()
@@ -90,7 +91,8 @@ export default {
         router.push({
           name: 'product',
           params: {
-            slug: props.slug
+            slug: props.slug,
+            category: props.category
           }
         })
       }
