@@ -11,14 +11,21 @@ const authParams = `${CK}&${CS}`
 export default createStore({
   state: {
     openHeaderMenu: false,
+
     products: [],
     product: {},
     productsOfCategory: [],
     upSellProducts: [],
+
     categories: [],
     category: {},
     childCategories: [],
+
     oneProductReviews: [],
+
+    attributes: [],
+
+
   },
   getters: {
     salePraceProducts(state) {
@@ -32,7 +39,7 @@ export default createStore({
     },
     getChildCategories: (state) => (id) => {
       return state.categories.filter(category => category.parent === id && category.count > 0)
-    },
+    }
   },
   actions: {
     async getProducts({commit}) {
@@ -70,12 +77,22 @@ export default createStore({
         let resData = await res.json();
         commit('setProductOfCategory', resData)
       }
+    },
+    async getAttributes({commit}) {
+      let res = await fetch(`${URL}/products/attributes?${authParams}`);
+      if (res.ok) {
+        let resData = await res.json();
+        commit('setAttributes', resData)
+      }
     }
 
 
 
   },
   mutations: {
+    setAttributes(state, items) {
+      state.attributes = items
+    },
     setChildCategories(state, id) {
       state.childCategories = state.categories.filter(item => item.parent === id && item.count > 0)
     },

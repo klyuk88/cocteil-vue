@@ -11,7 +11,7 @@
         <div class="card__info-left">
           <div class="card__price">
             <div class="card__price-new">{{price}} р</div>
-            <div class="card__price-old">{{salePrice}} р</div>
+            <div class="card__price-old" v-if="salePrice">{{salePrice}} р</div>
           </div>
           <a class="card__title" @click.prevent="goToProductPage">
             {{title}}
@@ -39,29 +39,10 @@
                 ></use></svg
             ></a>
           </div>
-          <div class="card__rating">
-            <div class="card__rating-item">
-              <svg class="svg-sprite-icon icon-star">
-                <use
-                  xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                ></use>
-              </svg>
-            </div>
-            <div class="card__rating-item">
-              <svg class="svg-sprite-icon icon-star">
-                <use
-                  xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                ></use>
-              </svg>
-            </div>
-            <div class="card__rating-item">
-              <svg class="svg-sprite-icon icon-star">
-                <use
-                  xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
-                ></use>
-              </svg>
-            </div>
-            <div class="card__rating-item">
+          <div class="card__rating" v-if="rating">
+            <div class="card__rating-item"
+            v-for="(item, index) in isRating" :key="index"
+            >
               <svg class="svg-sprite-icon icon-star">
                 <use
                   xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
@@ -75,6 +56,8 @@
 </template>
 <script>
 import {useRouter,} from 'vue-router'
+import {useStore} from 'vuex'
+import {computed} from 'vue'
 export default {
     props: {
       title: String,
@@ -82,10 +65,17 @@ export default {
       salePrice: String,
       thumbnail: String,
       slug: String,
-      category: String
+      category: String,
+      rating: String
     },
     setup(props) {
       const router = useRouter()
+      const store = useStore()
+
+      const isRating = computed(() => {
+        return  Math.round(props.rating) === 6 ? 5 : Math.round(props.rating)
+      })
+      
   
       const goToProductPage = () => {
         router.push({
@@ -97,7 +87,8 @@ export default {
         })
       }
       return {
-        goToProductPage
+        goToProductPage,
+        isRating
       }
     }
 };

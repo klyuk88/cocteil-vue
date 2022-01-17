@@ -96,33 +96,53 @@
                 v-for="(category, index) in store.state.childCategories"
                 :key="index"
               >
-              <router-link
-              :to="{
-                name: 'category',
-                params: {
-                  categoryName: category.slug
-                }
-              }"
-              >
-              {{ category.name }}<span>{{ category.count }}</span>
-              </router-link>
-                
+                <router-link
+                  :to="{
+                    name: 'category',
+                    params: {
+                      categoryName: category.slug,
+                    },
+                  }"
+                >
+                  {{ category.name }}<span>{{ category.count }}</span>
+                </router-link>
               </li>
             </ul>
 
             <form class="catalog-filter" action="/">
-              <FilterItemCatalog />
+              <FilterItemCatalog
+                v-for="(item, index) in store.state.attributes"
+                :key="index"
+                :name="item.name"
+                :id="item.id"
+                :slug="item.slug"
+                @resAttrs="resAttrsPush"
+              />
 
               <div class="catalog-filter__group">
-                <div class="catalog-filter__title">Цена, б.р</div>
-                <div class="catalog-filter__range">
-                  <div class="catalog-filter__range-inner">
-                    <span class="catalog-filter__range-txt">От</span
-                    ><span class="catalog-filter__range-txt">До</span>
-                  </div>
-                  <div id="filterSlider"></div>
+                <div class="catalog-filter__title">Цена(б.р.)</div>
+                <div class="price-group">
+                  <input
+                    type="text"
+                    name="priceDown"
+                    id=""
+                    placeholder="от"
+                    v-model="minPriceInput"
+                  />
+                  <input
+                    type="text"
+                    name="priceUP"
+                    id=""
+                    placeholder="до"
+                    v-model="maxPriceInput"
+                  />
                 </div>
               </div>
+
+              <button class="card__btn done-filter" @click.prevent="goFilter">
+                Применить
+              </button>
+              <button class="card__btn cancel-filter">Сбросить</button>
             </form>
           </div>
 
@@ -143,6 +163,7 @@
                   :slug="item.slug"
                   :category="store.state.category.slug"
                   :id="item.id"
+                  :rating="item.average_rating"
                 />
               </div>
               <!-- catalog-list__item end -->
@@ -166,15 +187,7 @@
 </template>
 
 <script>
-import {
-  ref,
-  reactive,
-  computed,
-  onMounted,
-  watch,
-  onUnmounted,
-  watchEffect,
-} from "vue";
+import { reactive, ref, watchEffect } from "vue";
 import { useRoute, onBeforeRouteLeave, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import ProductCard from "../components/Base/ProductCard.vue";
@@ -187,23 +200,56 @@ export default {
     const router = useRouter();
     const store = useStore();
 
+    const URL = process.env.VUE_APP_API_URL;
+    const CK = "consumer_key=" + process.env.VUE_APP_CK;
+    const CS = "consumer_secret=" + process.env.VUE_APP_CS;
+    const authParams = `${CK}&${CS}`;
 
     const stop = watchEffect(() => {
-      store.dispatch("getCategory", route.params.categoryName).then(() => {
-      store.dispatch("getProductOfCategory", store.state.category.id);
-      store.commit("setChildCategories", store.state.category.id);
+      store
+        .dispatch("getCategory", route.params.categoryName)
+        .then(() => {
+          store.dispatch("getProductOfCategory", store.state.category.id);
+          store.commit("setChildCategories", store.state.category.id);
+        })
+        .catch((err) => {
+          console.log("Ошибка:", err);
+        });
     });
-    })
+    store.dispatch("getAttributes");
 
-    
+    const minPriceInput = ref(null);
+    const maxPriceInput = ref(null);
+
+    const resAttrsArr = {};
+    const resAttrsPush = (slugVal, valArr) => {
+      if (valArr.length > 0) {
+        resAttrsArr[
+          slugVal
+        ] = `${URL}/products?attribute=${slugVal}&attribute_term=${valArr.join(
+          ","
+        )}&${authParams}`;
+      } else {
+        delete resAttrsArr[slugVal];
+      }
+    };
+
+    const goFilter = () => {
+      // min_price=1700&max_price=2000
+      console.log(minPriceInput.value, maxPriceInput.value);
+      console.log(resAttrsArr);
+    };
 
     onBeforeRouteLeave(() => {
-      stop()
-    })
-
+      stop();
+    });
 
     return {
       store,
+      resAttrsPush,
+      goFilter,
+      minPriceInput,
+      maxPriceInput,
     };
   },
 };
@@ -211,22 +257,43 @@ export default {
 
 <style lang="sass">
 .child-categories
-  margin-bottom: 30px
+  margin-bottom: 20px
   li
     font-size: 1rem
     cursor: pointer
-    color: #514A7E
     line-height: 1
     span
       font-size: 0.75rem
       color: grey
       margin-left: 15px
+
+.price-group
+  display: flex
+  align-items: center
+  justify-content: space-between
+  width: 100%
+  margin-top: 10px
+  input
+    width: 45%
+    border: 1px solid grey
+    background: transparent
+    padding-left: 5px
+  input::placeholder
+    font-size: 0.8rem
+
+.cancel-filter
+  margin-top: 15px
+  opacity: 0.5
+
+.card__btn.cancel-filter:hover
+  background-color: transparent
+  color: #121212
+
+.done-filter
+  margin-top: 20px
+  background: #514A7E
+  border-color: #514A7E
+  color: #fff
 </style>
 
-текущая категория по слагу из роутера
-дочерние категории текущей категории по ее айди
-список товаров по айди текущей категории
-спискок атрибутов и термины каждого
-
-при изминении слага роутера получать по новой все данные
 

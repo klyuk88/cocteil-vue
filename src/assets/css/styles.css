@@ -1471,8 +1471,8 @@ p {
 .checkbox {
   display: block;
   font-weight: 300;
-  font-size: 0.875rem;
-  line-height: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.2rem;
   color: #7D7D7D;
 }
 
@@ -2574,11 +2574,9 @@ p {
 
 .catalog-filter__group {
   position: relative;
+  margin-bottom: 15px;
 }
 
-.catalog-filter__group:not(:last-child) {
-  margin-bottom: 1.875rem;
-}
 
 .catalog-filter__title {
   font-size: 1rem;
@@ -2612,9 +2610,7 @@ p {
   margin-bottom: 0.25rem;
 }
 
-.catalog-filter__dropdown {
-  padding-top: 0.75rem;
-}
+
 
 .catalog-filter__colors {
   display: flex;
