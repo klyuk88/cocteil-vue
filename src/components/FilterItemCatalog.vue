@@ -17,9 +17,8 @@
             class="checkbox-input"
             type="checkbox"
             :name="slug"
-            :value="item.id"
-            v-model="attrInput.inputVal"
-            @change="getName"
+            :value="item.name"
+            v-model="filterInput"
           /><span class="checkbox-txt">{{ item.name }}</span>
         </label>
       </div>
@@ -36,7 +35,7 @@ export default {
     id: Number,
     slug: String,
   },
-  emits: ["resAttrs"],
+  emits: ['changeItem'],
   setup(props, context) {
 
     const URL = process.env.VUE_APP_API_URL;
@@ -55,33 +54,26 @@ export default {
       }
     };
 
+    const filterInput = ref([])
+    watch(filterInput, (newVal) => {
+      context.emit('changeItem', props.id, newVal)
+    })
+
     onMounted(() => {
       getAttributeTerms(props.id);
     });
 
-    const isOpen = ref(false);
+    const isOpen = ref(true);
 
     const open = () => {
       isOpen.value = !isOpen.value;
     };
 
-    const attrInput = reactive({
-      taxName: "",
-      inputVal: [],
-    });
-
-    const getName = (event) => {
-      attrInput.taxName = event.target.getAttribute("name");
-      context.emit('resAttrs', attrInput.taxName, attrInput.inputVal)
-    };
-
-
     return {
       isOpen,
       open,
       attributesTerms,
-      getName,
-      attrInput
+      filterInput
     };
   },
 };

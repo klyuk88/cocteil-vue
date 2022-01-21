@@ -39,7 +39,23 @@ export default createStore({
     },
     getChildCategories: (state) => (id) => {
       return state.categories.filter(category => category.parent === id && category.count > 0)
-    }
+    },
+    // getFilterProducts: (state) => (id, names) => {
+    //   return state.productsOfCategory.filter((elem) => {
+    //     for (let i = 0; i < elem.attrs.length; i++) {
+    //       const attr = elem.attrs[i];
+    //       if (attr.id === id) {
+    //         for (let y = 0; y < names.length; y++) {
+    //           const option = names[y];
+    //           if (attr.options.includes(option)) {
+    //             return true;
+    //           }
+    //         }
+    //       }
+    //     }
+    //   });
+    // }
+
   },
   actions: {
     async getProducts({commit}) {

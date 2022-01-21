@@ -116,12 +116,13 @@
                 :name="item.name"
                 :id="item.id"
                 :slug="item.slug"
-                @resAttrs="resAttrsPush"
+                @changeItem="changeItem"
               />
 
               <div class="catalog-filter__group">
                 <div class="catalog-filter__title">Цена(б.р.)</div>
-                <div class="price-group">
+
+                <!-- <div class="price-group">
                   <input
                     type="text"
                     name="priceDown"
@@ -136,13 +137,13 @@
                     placeholder="до"
                     v-model="maxPriceInput"
                   />
-                </div>
+                </div> -->
               </div>
 
-              <button class="card__btn done-filter" @click.prevent="goFilter">
+              <!-- <button class="card__btn done-filter" @click.prevent="goFilter">
                 Применить
               </button>
-              <button class="card__btn cancel-filter">Сбросить</button>
+              <button class="card__btn cancel-filter">Сбросить</button> -->
             </form>
           </div>
 
@@ -200,11 +201,6 @@ export default {
     const router = useRouter();
     const store = useStore();
 
-    const URL = process.env.VUE_APP_API_URL;
-    const CK = "consumer_key=" + process.env.VUE_APP_CK;
-    const CS = "consumer_secret=" + process.env.VUE_APP_CS;
-    const authParams = `${CK}&${CS}`;
-
     const stop = watchEffect(() => {
       store
         .dispatch("getCategory", route.params.categoryName)
@@ -218,38 +214,30 @@ export default {
     });
     store.dispatch("getAttributes");
 
-    const minPriceInput = ref(null);
-    const maxPriceInput = ref(null);
-
-    const resAttrsArr = {};
-    const resAttrsPush = (slugVal, valArr) => {
-      if (valArr.length > 0) {
-        resAttrsArr[
-          slugVal
-        ] = `${URL}/products?attribute=${slugVal}&attribute_term=${valArr.join(
-          ","
-        )}&${authParams}`;
-      } else {
-        delete resAttrsArr[slugVal];
-      }
-    };
-
-    const goFilter = () => {
-      // min_price=1700&max_price=2000
-      console.log(minPriceInput.value, maxPriceInput.value);
-      console.log(resAttrsArr);
-    };
-
     onBeforeRouteLeave(() => {
       stop();
     });
+    function filterArr(array, id, names) {
+      return array.filter((elem) => {
+        for (let i = 0; i < elem.attrs.length; i++) {
+          const attr = elem.attrs[i];
+          if (attr.id === id) {
+            for (let y = 0; y < names.length; y++) {
+              const option = names[y];
+              if (attr.options.includes(option)) {
+                return true;
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function changeItem(id, values) {}
 
     return {
       store,
-      resAttrsPush,
-      goFilter,
-      minPriceInput,
-      maxPriceInput,
+      changeItem,
     };
   },
 };
