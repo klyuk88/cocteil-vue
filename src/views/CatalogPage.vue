@@ -32,144 +32,48 @@
         </div>
       </div>
       <div class="container">
-        <div class="catalog-breadcrumbs breadcrumbs">
-          <ul class="breadcrumbs-list">
-            <li class="breadcrumbs-list__item">
-              <a class="breadcrumbs-list__link" href="#">Главная</a>
-            </li>
-            <li class="breadcrumbs-list__item">
-              <a class="breadcrumbs-list__link" href="#">Женщинам</a>
-            </li>
-            <li class="breadcrumbs-list__item">Блузки и рубашки</li>
-          </ul>
-        </div>
+        <BreadCrumbs />
 
-        <h1 class="content-title section-title">
-          {{ store.state.category.name }}
-        </h1>
-
+        <h1 class="content-title section-title">{{ data.title }}</h1>
         <div class="catalog-sorting">
           <div class="catalog-sorting__txt">Сортировать по:</div>
           <div class="catalog-sorting__list">
             <div class="sorting">
-              <label class="sorting-label">
+              <!-- <label class="sorting-label">
                 <input class="sorting-input" type="radio" name="sorting" /><span
                   class="sorting-txt"
                   >Популярности</span
                 >
-              </label>
-              <label class="sorting-label">
-                <input class="sorting-input" type="radio" name="sorting" /><span
-                  class="sorting-txt"
-                  >Рейтингу</span
-                >
-              </label>
-              <label class="sorting-label">
-                <input class="sorting-input" type="radio" name="sorting" /><span
-                  class="sorting-txt"
-                  >Цене</span
-                >
-              </label>
-              <label class="sorting-label">
-                <input class="sorting-input" type="radio" name="sorting" /><span
-                  class="sorting-txt"
-                  >Скидке</span
-                >
-              </label>
-              <label class="sorting-label">
-                <input class="sorting-input" type="radio" name="sorting" /><span
-                  class="sorting-txt"
-                  >Обновлению</span
-                >
-              </label>
+              </label> -->
             </div>
           </div>
         </div>
         <div class="catalog-content">
           <!-- сайдбар  -->
-          <div class="catalog-content__left">
-            <ul
-              class="child-categories"
-              v-if="store.state.childCategories.length"
-            >
-              <li
-                v-for="(category, index) in store.state.childCategories"
-                :key="index"
-              >
-                <router-link
-                  :to="{
-                    name: 'category',
-                    params: {
-                      categoryName: category.slug,
-                    },
-                  }"
-                >
-                  {{ category.name }}<span>{{ category.count }}</span>
-                </router-link>
-              </li>
-            </ul>
-
-            <form class="catalog-filter" action="/">
-              <FilterItemCatalog
-                v-for="(item, index) in store.state.attributes"
-                :key="index"
-                :name="item.name"
-                :id="item.id"
-                :slug="item.slug"
-                @changeItem="changeItem"
-              />
-
-              <div class="catalog-filter__group">
-                <div class="catalog-filter__title">Цена(б.р.)</div>
-
-                <!-- <div class="price-group">
-                  <input
-                    type="text"
-                    name="priceDown"
-                    id=""
-                    placeholder="от"
-                    v-model="minPriceInput"
-                  />
-                  <input
-                    type="text"
-                    name="priceUP"
-                    id=""
-                    placeholder="до"
-                    v-model="maxPriceInput"
-                  />
-                </div> -->
-              </div>
-
-              <!-- <button class="card__btn done-filter" @click.prevent="goFilter">
-                Применить
-              </button>
-              <button class="card__btn cancel-filter">Сбросить</button> -->
-            </form>
-          </div>
+          <TheSidebar @checkInput="inputCheck" />
 
           <!-- товары  -->
+
           <div class="catalog-content__right">
-            <div class="catalog-list flex">
+            <div class="catalog-list flex" v-if="data.products.length">
               <!-- список товаров  -->
               <div
                 class="catalog-list__item"
-                v-for="(item, index) in store.state.productsOfCategory"
+                v-for="(item, index) in data.products"
                 :key="index"
               >
                 <ProductCard
-                  :title="item.name"
-                  :price="item.regular_price"
-                  :sale-price="item.sale_price"
-                  :thumbnail="item.images[0].src"
-                  :slug="item.slug"
-                  :category="store.state.category.slug"
-                  :id="item.id"
-                  :rating="item.average_rating"
+                  :title="item.attributes.Title"
+                  :price="item.attributes.Price"
+                  :sale-price="item.attributes.Sale"
+                  :thumbnail="item.attributes.Thumbnail.data.attributes.url"
+                  :slug="item.attributes.slug"
                 />
               </div>
               <!-- catalog-list__item end -->
             </div>
             <!-- список товаров  -->
+            <h2 v-else>Отсутствуют товары, соответсвующие запросу</h2>
           </div>
         </div>
         <div class="catalog-foot">
@@ -188,100 +92,130 @@
 </template>
 
 <script>
-import { reactive, ref, watchEffect } from "vue";
-import { useRoute, onBeforeRouteLeave, useRouter } from "vue-router";
-import { useStore } from "vuex";
+import { reactive, ref, watchEffect, watch, onMounted } from "vue";
+import {
+  useRoute,
+  useRouter,
+  onBeforeRouteLeave,
+  onBeforeRouteUpdate,
+} from "vue-router";
+
+import qs from "qs";
+
 import ProductCard from "../components/Base/ProductCard.vue";
-import FilterItemCatalog from "../components/FilterItemCatalog.vue";
+import TheSidebar from "../components/TheSidebar.vue";
+import BreadCrumbs from "../components/Product/BreadCrumbs.vue";
 export default {
-  components: { ProductCard, FilterItemCatalog },
+  components: { ProductCard, TheSidebar, BreadCrumbs },
 
   setup(props) {
     const route = useRoute();
-    const router = useRouter();
-    const store = useStore();
+    const router = useRouter()
+
+    const data = reactive({
+      title: "",
+      products: [],
+    });
+
 
     const stop = watchEffect(() => {
-      store
-        .dispatch("getCategory", route.params.categoryName)
-        .then(() => {
-          store.dispatch("getProductOfCategory", store.state.category.id);
-          store.commit("setChildCategories", store.state.category.id);
-        })
-        .catch((err) => {
-          console.log("Ошибка:", err);
-        });
+      getCategory(route.params.slug, route.name);
+      getProducts(route.params.slug);
     });
-    store.dispatch("getAttributes");
 
-    onBeforeRouteLeave(() => {
-      stop();
-    });
-    function filterArr(array, id, names) {
-      return array.filter((elem) => {
-        for (let i = 0; i < elem.attrs.length; i++) {
-          const attr = elem.attrs[i];
-          if (attr.id === id) {
-            for (let y = 0; y < names.length; y++) {
-              const option = names[y];
-              if (attr.options.includes(option)) {
-                return true;
-              }
-            }
-          }
-        }
+
+    async function getCategory(routeParam, routeName) {
+      const query = qs.stringify({
+        filters: {
+          slug: {
+            $eq: routeParam,
+          },
+        },
+        fields: "Title",
       });
+      try {
+        const res = await fetch(
+          `${process.env.VUE_APP_ADMIN_URL}/api/${routeName}?${query}`
+        );
+        if (res.ok) {
+          const resData = await res.json();
+          data.title = resData.data[0].attributes.Title;
+        } else {
+          console.log(error);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
 
-    function changeItem(id, values) {}
+    async function getProducts(routeParam, attrs = []) {
+      const query = qs.stringify({
+        filters: {
+          $or: [
+            {
+              subcategories: {
+                slug: {
+                  $eq: routeParam,
+                },
+              },
+            },
+            {
+              categories: {
+                slug: {
+                  $eq: routeParam,
+                },
+              },
+            },
+          ],
+          terms: {
+            id: {
+              $eq: attrs,
+            },
+          },
+        },
+        populate: {
+          Thumbnail: {
+            fields: "url",
+          },
+        },
+        fields: ["Title", "Sale", "Price", "slug"],
+      });
+      try {
+        const res = await fetch(
+          process.env.VUE_APP_ADMIN_URL + "/api/products?" + query
+        );
+        if (res.ok) {
+          const resData = await res.json();
+          data.products = resData.data;
+        } else {
+          console.log(error);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+
+    function inputCheck(ids) {
+      getProducts(route.params.slug, ids);
+    }
+
+
+    router.beforeEach((to, from) => {
+      if(to.name === 'product') {
+        stop();
+      }
+    })
 
     return {
-      store,
-      changeItem,
+      data,
+      inputCheck,
     };
   },
 };
 </script>
 
 <style lang="sass">
-.child-categories
-  margin-bottom: 20px
-  li
-    font-size: 1rem
-    cursor: pointer
-    line-height: 1
-    span
-      font-size: 0.75rem
-      color: grey
-      margin-left: 15px
-
-.price-group
-  display: flex
-  align-items: center
-  justify-content: space-between
-  width: 100%
-  margin-top: 10px
-  input
-    width: 45%
-    border: 1px solid grey
-    background: transparent
-    padding-left: 5px
-  input::placeholder
-    font-size: 0.8rem
-
-.cancel-filter
-  margin-top: 15px
-  opacity: 0.5
-
-.card__btn.cancel-filter:hover
-  background-color: transparent
-  color: #121212
-
-.done-filter
-  margin-top: 20px
-  background: #514A7E
-  border-color: #514A7E
-  color: #fff
+.content-title
+  margin-top: 50px
 </style>
-
-

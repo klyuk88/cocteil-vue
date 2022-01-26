@@ -2,7 +2,7 @@
     <div class="card">
       <a class="card__img" href="#" @click.prevent="goToProductPage">
           <img
-            :src="thumbnail"
+            :src="adminUrl + thumbnail"
             :alt="title"
           />
       >
@@ -10,8 +10,8 @@
       <div class="card__info">
         <div class="card__info-left">
           <div class="card__price">
-            <div class="card__price-new">{{price}} р</div>
-            <div class="card__price-old" v-if="salePrice">{{salePrice}} р</div>
+            <div class="card__price-new">{{price}} Br</div>
+            <div class="card__price-old" v-if="salePrice">{{salePrice}} Br</div>
           </div>
           <a class="card__title" @click.prevent="goToProductPage">
             {{title}}
@@ -39,56 +39,45 @@
                 ></use></svg
             ></a>
           </div>
-          <div class="card__rating" v-if="rating">
-            <div class="card__rating-item"
-            v-for="(item, index) in isRating" :key="index"
-            >
+          <!-- <div class="card__rating">
+            <div class="card__rating-item">
               <svg class="svg-sprite-icon icon-star">
                 <use
                   xlink:href="@/assets/images/svg/symbol/sprite.svg#star"
                 ></use>
               </svg>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
-</template>
+</template> 
 <script>
 import {useRouter,} from 'vue-router'
-import {useStore} from 'vuex'
-import {computed} from 'vue'
+import {computed, ref} from 'vue'
 export default {
     props: {
       title: String,
-      price: String,
-      salePrice: String,
+      price: Number,
+      salePrice: Number,
       thumbnail: String,
       slug: String,
-      category: String,
-      rating: String
     },
     setup(props) {
       const router = useRouter()
-      const store = useStore()
-
-      const isRating = computed(() => {
-        return  Math.round(props.rating) === 6 ? 5 : Math.round(props.rating)
-      })
-      
+      const adminUrl = ref(process.env.VUE_APP_ADMIN_URL)
   
       const goToProductPage = () => {
         router.push({
           name: 'product',
           params: {
             slug: props.slug,
-            category: props.category
           }
         })
       }
       return {
         goToProductPage,
-        isRating
+        adminUrl
       }
     }
 };

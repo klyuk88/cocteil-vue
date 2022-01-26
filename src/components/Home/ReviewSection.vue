@@ -14,12 +14,12 @@
               prevEl: '',
             }"
           >
-            <SwiperSlide v-for="(review, index) in reviews" :key="index">
+            <SwiperSlide v-for="(item, index) in reviews" :key="index">
               <div class="reviews-card">
                 <div class="reviews-card__left">
                   <div class="reviews-card__img">
                     <img
-                      :src="review.reviewer_avatar_urls['96']"
+                      :src="adminUrl + item.attributes['users_permissions_user'].data.attributes.avatar.data.attributes.url || '@/assets/images/user_avatar.jpg'"
                       width="94"
                       height="94"
                       alt="img"
@@ -30,7 +30,7 @@
                   <div class="reviews-card__rating flex">
                     <div
                     class="reviews-card__rating-item centered"
-                    v-for="(item, index) in review.rating" :key="index"
+                    v-for="(item, index) in item.attributes.raiting" :key="index"
                     >
                       <svg class="svg-sprite-icon icon-star">
                         <use
@@ -40,12 +40,15 @@
                     </div>
                   </div>
                   <div class="reviews-card__txt">
-                    {{ review.review }}
+                    {{item.attributes.message}}
                   </div>
                   <div class="reviews-card__group flex">
-                    <div class="reviews-card__name">{{ review.reviewer }}</div>
+                    <div class="reviews-card__name">
+                      {{item.attributes['users_permissions_user'].data.attributes.username}}
+
+                    </div>
                     <div class="reviews-card__date">
-                      {{ new Date(review.date_created).toLocaleDateString() }}
+                      {{ new Date(item.attributes.publishedAt).toLocaleDateString() }}
                     </div>
                   </div>
                 </div>
@@ -69,12 +72,15 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
 // Import Swiper Vue.js components
 import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/vue/swiper-vue.js";
+
+import {ref} from 'vue'
 
 // Import Swiper styles
 import "swiper/swiper.scss";
@@ -87,13 +93,13 @@ export default {
   props: {
     reviews: Array,
   },
-  setup() {
+  setup(props) {
     const modules = [Navigation];
-
-
+    const adminUrl = ref(process.env.VUE_APP_ADMIN_URL)
 
     return {
       modules,
+      adminUrl
     };
   },
 };
@@ -101,6 +107,16 @@ export default {
 
 <style lang="sass">
 .reviews-card__img
+  width: 100px
+  height: 100px
+  position: relative
+  overflow: hidden
+  border-radius: 60px
   img
-    border-radius: 50%
+    position: absolute
+    width: 100%
+    height: 100%
+    top: 0
+    left: 0
+    object-fit: cover
 </style>

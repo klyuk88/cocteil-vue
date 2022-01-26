@@ -1,7 +1,7 @@
 <template>
   <div class="catalog-filter__group">
     <div class="catalog-filter__title" @click="open">
-      {{ name }}
+      {{ title }}
       <svg class="svg-sprite-icon icon-up" :class="{ active: isOpen }">
         <use xlink:href="@/assets/images/svg/symbol/sprite.svg#up"></use>
       </svg>
@@ -10,16 +10,16 @@
       <div class="catalog-filter__list">
         <label
           class="checkbox catalog-filter__checkbox"
-          v-for="(item, index) in attributesTerms"
+          v-for="(term, index) in terms"
           :key="index"
         >
           <input
             class="checkbox-input"
             type="checkbox"
-            :name="slug"
-            :value="item.name"
-            v-model="filterInput"
-          /><span class="checkbox-txt">{{ item.name }}</span>
+            :value="term.id"
+            @change="checkInput(term.id)"
+          />
+          <span class="checkbox-txt">{{ term.attributes.Title }}</span>
         </label>
       </div>
     </div>
@@ -31,49 +31,27 @@ import { ref, onMounted, watch, reactive } from "vue";
 import { useStore } from "vuex";
 export default {
   props: {
-    name: String,
-    id: Number,
-    slug: String,
+    title: String,
+    terms: Array,
   },
-  emits: ['changeItem'],
+  emits: ['checkInput'],
   setup(props, context) {
+    const isOpen = ref(false);
+    const checkInput = ref([]);
 
-    const URL = process.env.VUE_APP_API_URL;
-    const CK = "consumer_key=" + process.env.VUE_APP_CK;
-    const CS = "consumer_secret=" + process.env.VUE_APP_CS;
-    const authParams = `${CK}&${CS}`;
-
-    const attributesTerms = ref([]);
-    const getAttributeTerms = async (id) => {
-      let res = await fetch(
-        `${URL}/products/attributes/${id}/terms?hide_empty=true&${authParams}`
-      );
-      if (res.ok) {
-        let resData = await res.json();
-        attributesTerms.value = resData;
-      }
-    };
-
-    const filterInput = ref([])
-    watch(filterInput, (newVal) => {
-      context.emit('changeItem', props.id, newVal)
-    })
-
-    onMounted(() => {
-      getAttributeTerms(props.id);
-    });
-
-    const isOpen = ref(true);
-
-    const open = () => {
+    function open(params) {
       isOpen.value = !isOpen.value;
-    };
+    }
+
+   
+
+    // watch(checkInput, (newVal) => {
+    //   context.emit('checkInput', newVal, props.title)
+    // });
 
     return {
       isOpen,
       open,
-      attributesTerms,
-      filterInput
     };
   },
 };
@@ -86,6 +64,15 @@ export default {
   overflow: hidden
   max-height: 0
   transition: .3s ease
+
+.checkbox.catalog-filter__checkbox
+  cursor: pointer
+  transition: all 0.3s ease
+  font-size: 1rem
+  margin-bottom: 10px
+
+.checkbox.catalog-filter__checkbox:hover
+  opacity: 0.7
 
 .catalog-filter__dropdown.active
   max-height: 800px

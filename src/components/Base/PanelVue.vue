@@ -1,8 +1,8 @@
 <template>
   <div
     class="leftPanel"
-    :class="{ 'leftPanel--open': isMenuOpen }"
-    @mouseleave="closeMenu"
+    :class="{ 'leftPanel--open': openPanel }"
+    @mouseleave="$emit('closePanel')"
   >
     <div class="leftPanel-head">
       <div class="leftPanel-title">Каталог</div>
@@ -59,11 +59,11 @@
       <div class="leftPanel-left">
         <ul class="menu">
           <MenuCategoryItem
-            v-for="(item, index) in parentCategories"
+            v-for="(item, index) in data.categories"
             :key="index"
-            :name="item.name"
-            :id="item.id"
-            :slug="item.slug"
+            :name="item.attributes.Title"
+            :slug="item.attributes.slug"
+            :subcategories="item.attributes.subcategories.data"
           />
         </ul>
       </div>
@@ -84,33 +84,43 @@
 </template>
 
 <script>
-import { computed, onMounted } from "vue";
-import { useStore } from "vuex";
+import { computed, onMounted, reactive } from "vue";
+import qs from "qs";
 import MenuCategoryItem from "./MenuCategoryItem.vue";
 export default {
+  props: {
+    openPanel: Boolean,
+  },
   components: {
     MenuCategoryItem,
   },
   setup() {
-    const store = useStore();
-    store.dispatch("getCategories")
-
-    const parentCategories = computed(() => {
-      return store.getters.parentCategories;
+    const data = reactive({
+      categories: [],
     });
+    async function getCategories(params) {
+      const query = qs.stringify({
+        populate: {
+          subcategories: {
+            fields: ["Title", "slug"],
+          },
+        },
+        fields: ["Title", "slug"],
+      });
+      const res = await fetch(
+        process.env.VUE_APP_API_URL + "/categories?" + query
+      );
+      if (res.ok) {
+        const resData = await res.json();
+        data.categories = resData.data
+      }
+    }
 
-    const isMenuOpen = computed(() => {
-      return store.state.openHeaderMenu;
+    onMounted(() => {
+      getCategories();
     });
-
-    const closeMenu = () => {
-      store.commit("closeMenu");
-    };
-
     return {
-      closeMenu,
-      isMenuOpen,
-      parentCategories,
+      data,
     };
   },
 };

@@ -14,7 +14,7 @@
           </div>
           <div class="product-mobile__col">
             <div class="product-mobile__title">
-              {{ store.state.product.name }}
+              {{ product.data.Title }}
             </div>
           </div>
           <div class="product-mobile__col">
@@ -43,10 +43,8 @@
 
         <!-- название  -->
         <div class="product-title">
-          <h1 class="section-title">{{ store.state.product.name }}</h1>
-          <div class="product-art" v-if="store.state.product.sku">
-            Арт {{ store.state.product.sku }}
-          </div>
+          <h1 class="section-title">{{ product.data.Title }}</h1>
+          <div class="product-art">Арт 123455</div>
         </div>
 
         <div class="product-content">
@@ -63,11 +61,11 @@
                 }"
               >
                 <SwiperSlide
-                  v-for="(image, index) in store.state.product.images"
+                  v-for="(item, index) in product.gallery"
                   :key="index"
                 >
                   <div class="product-gallery__img">
-                    <img :src="image.src" :alt="image.name" />
+                    <img :src="adminUrl + item.attributes.url" alt="" />
                   </div>
                 </SwiperSlide>
               </Swiper>
@@ -95,12 +93,12 @@
               @swiper="setThumbsSwiper"
             >
               <SwiperSlide
-                v-for="(image, index) in store.state.product.images"
+                v-for="(item, index) in product.gallery"
                 :key="index"
               >
                 <div class="product-thumbs__slide">
                   <div class="product-thumbs__img">
-                    <img :src="image.src" :alt="image.name" />
+                    <img :src="adminUrl + item.attributes.url" alt="" />
                   </div>
                 </div>
               </SwiperSlide>
@@ -109,7 +107,7 @@
           <div class="product-content__right">
             <div class="product-mobile-title">
               <div class="product-mobile-title__txt">
-                {{ store.state.product.name }}
+                {{ product.data.Title }}
               </div>
               <div class="product-mobile-title__art">Арт 09456784</div>
             </div>
@@ -118,39 +116,39 @@
                 Стоимость
               </div>
               <div class="product-price__value">
-                {{ store.state.product.price }} б.р.
+                {{ product.data.Price }} Br
               </div>
             </div>
 
             <div class="product-attributes-wrap">
-              <div
-                class="product-attribute"
-                v-for="(attr, index) in store.state.product.attributes"
-                :key="index"
-              >
-                <h4 class="product-attribute-title">
-                  {{attr.name}}
-                </h4>
-                <div class="product-attribute-list-wrap">
-                  <img
-                    src="@/assets/images/arrow-select.svg"
-                    alt=""
-                    class="product-attribute-select-arrow"
-                  />
-                  <select
-                    :name="attr.name"
-                    id=""
-                    class="product-attribute-list"
-                  >
-                    <option
-                    v-for="(option, index) in attr.options" :key="index"
-                    :value="option"
-                    >{{option}}
-                    </option>
-
-                  </select>
+              <template v-for="(item, index) in product.attrs" :key="index">
+                <div class="product-attribute">
+                  <h4 class="product-attribute-title">
+                    {{ item.attributes.Title }}
+                  </h4>
+                  <div class="product-attribute-list-wrap">
+                    <img
+                      src="@/assets/images/arrow-select.svg"
+                      alt=""
+                      class="product-attribute-select-arrow"
+                    />
+                    <select
+                      :name="item.attributes.Title"
+                      id=""
+                      class="product-attribute-list"
+                    >
+                      <template
+                        v-for="(option, index) in item.attributes.terms.data"
+                        :key="index"
+                      >
+                        <option v-if="option.attributes.products.data.length">
+                          {{ option.attributes.Title }}
+                        </option>
+                      </template>
+                    </select>
+                  </div>
                 </div>
-              </div>
+              </template>
             </div>
 
             <a
@@ -159,7 +157,7 @@
               data-bs-toggle="modal"
               >Таблица размеров
             </a>
-          
+
             <div class="product-actions">
               <a class="product-cart product-cart--hidden btn" href="#"
                 >Купить сейчас</a
@@ -168,8 +166,10 @@
                 <svg class="svg-sprite-icon icon-bag">
                   <use
                     xlink:href="@/assets/images/svg/symbol/sprite.svg#bag"
-                  ></use></svg></a
-              ><a class="product-favorite" href="#">
+                  ></use></svg
+              ></a>
+
+              <a class="product-favorite" href="#">
                 <svg class="svg-sprite-icon icon-heart">
                   <use
                     xlink:href="@/assets/images/svg/symbol/sprite.svg#heart"
@@ -177,12 +177,12 @@
               ></a>
             </div>
             <!-- рейтинг  -->
-            <div class="product-rating"
-            v-if="store.state.oneProductReviews.length > 0 && store.state.product.reviews_allowed"
-            >
+            <div class="product-rating" v-if="product.raiting">
               <div class="product-rating__list">
-                <div class="product-rating__star"
-                  v-for="(item, index) in store.getters.calcRaiting" :key="index"
+                <div
+                  class="product-rating__star"
+                  v-for="(star, index) in product.raiting"
+                  :key="index"
                 >
                   <svg class="svg-sprite-icon icon-star">
                     <use
@@ -192,21 +192,21 @@
                 </div>
               </div>
               <div class="product-rating__links">
-
-                <a class="product-rating__link product-link" href="#reviews"
-                @click.prevent="toAnchor"
+                <a
+                  class="product-rating__link product-link"
+                  href="#reviews"
+                  v-if="product.reviews"
+                  @click.prevent="toAnchor"
                 >
                   Смотреть отзывы
                 </a>
-
               </div>
             </div>
-
 
             <div class="product-desc">
               <div class="product-desc__title">Описание</div>
               <div class="product-desc__txt">
-                {{ store.state.product.description }}
+                {{ product.data.Description }}
               </div>
             </div>
           </div>
@@ -215,15 +215,11 @@
     </div>
 
     <!-- отзывы  -->
-    <ReviewSection
-    v-if="store.state.oneProductReviews.length > 0 && store.state.product.reviews_allowed"
-    :reviews="store.state.oneProductReviews"
-    />
-
+    <ReviewSection v-if="product.reviews.length" :reviews="product.reviews" />
     <!-- отзывы  -->
 
     <!-- рекомендуемые товары -->
-    <div class="stocks section" v-if="store.state.upSellProducts.length">
+    <!-- <div class="stocks section" v-if="store.state.upSellProducts.length">
       <div class="container">
         <div class="stocks-title section-title">С этим товаром покупают</div>
       </div>
@@ -272,7 +268,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- рекомендуемые  -->
   </div>
 </template>
@@ -282,15 +278,15 @@ import { ref, computed, onMounted, reactive, watch, onUnmounted } from "vue";
 
 import BreadCrumbs from "@/components/Product/BreadCrumbs.vue";
 import ProductCard from "../components/Base/ProductCard.vue";
-import ReviewSection from '../components/Home/ReviewSection.vue'
+import ReviewSection from "../components/Home/ReviewSection.vue";
 
 import { Navigation, Thumbs } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/vue/swiper-vue.js";
-import {gsap} from 'gsap';
+import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
 import { useRoute, useRouter } from "vue-router";
-import { useStore } from "vuex";
+import qs from "qs";
 
 export default {
   components: { BreadCrumbs, Swiper, SwiperSlide, ProductCard, ReviewSection },
@@ -298,33 +294,101 @@ export default {
     gsap.registerPlugin(ScrollToPlugin);
     const route = useRoute();
     const router = useRouter();
-    const store = useStore();
-    
+    const adminUrl = process.env.VUE_APP_ADMIN_URL;
 
-    store.dispatch("getProducts")
-    .then(() => {
-      store.commit("setProduct", route.params.slug);
-      if (store.state.product.upsell_ids.length) {
-        store.commit("setUpSellProducts", store.state.product.upsell_ids);
-      } else {
-        store.commit("clearUpSellProducts");
+    const product = reactive({
+      data: {},
+      gallery: [],
+      attrs: [],
+      reviews: [],
+      raiting: null,
+    });
+
+    async function getProduct() {
+      const query = qs.stringify({
+        filters: {
+          slug: {
+            $eq: route.params.slug,
+          },
+        },
+        populate: {
+          Gallery: {
+            feilds: "",
+          },
+          reviews: {
+            populate: {
+              users_permissions_user: {
+                fields: ["username"],
+                populate: {
+                  avatar: {
+                    fields: "url",
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+      try {
+        const res = await fetch(
+          `${process.env.VUE_APP_API_URL}/products?${query}`
+        );
+        if (res.ok) {
+          const resData = await res.json();
+          product.data = resData.data[0].attributes;
+          product.gallery = resData.data[0].attributes.Gallery.data || [];
+          product.reviews = resData.data[0].attributes.reviews.data || [];
+
+          if (product.reviews) {
+            let raitingSum = null;
+            product.reviews.forEach((rev) => {
+              raitingSum = raitingSum + rev.attributes.raiting;
+            });
+            product.raiting = raitingSum / product.reviews.length;
+          }
+        }
+      } catch (error) {
+        console.log(error);
       }
+    }
 
-
-    })
-    .then(() => {
-      store.dispatch('getProductReviews', store.state.product.id)
-
-    })
+    async function getParameters() {
+      const query = qs.stringify({
+        filters: {
+          product_page_display: {
+            $eq: true,
+          },
+        },
+        populate: {
+          terms: {
+            populate: {
+              products: {
+                filters: {
+                  slug: {
+                    $eq: route.params.slug,
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+      const res = await fetch(
+        process.env.VUE_APP_API_URL + "/parameters?" + query
+      );
+      if (res.ok) {
+        const resData = await res.json();
+        product.attrs = resData.data;
+      }
+    }
 
     const toAnchor = () => {
-       gsap.to(window, {
+      gsap.to(window, {
         duration: 1,
-        scrollTo: '#reviews',
+        scrollTo: "#reviews",
         ease: "power2",
       });
-
-    }
+    };
 
     const goBack = () => {
       router.go(-1);
@@ -336,14 +400,20 @@ export default {
       thumbsSwiper.value = swiper;
     };
 
+    onMounted(() => {
+      getProduct();
+      getParameters();
+    });
+
     return {
       modules,
       thumbsSwiper,
       setThumbsSwiper,
       Navigation,
-      store,
       goBack,
-      toAnchor
+      toAnchor,
+      product,
+      adminUrl,
     };
   },
 };
@@ -375,10 +445,10 @@ export default {
 .product-attribute-list
   appearance: none
   background: transparent
-  padding: 10px
+  padding: 5px
+  padding-left: 0
   width: 100%
-  border: 1px solid #514A7E
-  width: 100%
+  border: none
 
 .product-attribute
   margin-bottom: 20px
@@ -391,8 +461,9 @@ export default {
 
 .product-attribute-list-wrap
   position: relative
-  width: 100%
+  width: 50%
   z-index: 1
+  border-bottom: 1px solid rgba(0,0,0,0.2)
 
 .product-attribute-select-arrow
   position: absolute
@@ -406,5 +477,4 @@ export default {
 .product-attribute-title
   font-size: 1.150rem
   font-weight: 400
-
 </style>

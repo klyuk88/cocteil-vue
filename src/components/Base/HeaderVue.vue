@@ -3,7 +3,7 @@
         <div class="container">
           <div class="header__content flex">
             <div class="header__menu">
-              <a class="open-menu" href="#" aria-label="open menu" @mouseenter="openMenu"> 
+              <a class="open-menu" href="#" aria-label="open menu" @mouseenter="openMenu">
                 <svg class="svg-sprite-icon icon-burger">
                   <use xlink:href="@/assets/images/svg/symbol/sprite.svg#burger"></use>
                 </svg></a>
@@ -43,29 +43,31 @@
         </div>
       </header>
       
-      <PanelVue/>
+      <PanelVue
+      :openPanel="isOpen"
+      @closePanel="closeMenu"
+      />
       
     
 </template>
 <script>
 import {ref, computed} from 'vue'
-import { useStore } from 'vuex'
 import PanelVue from "./PanelVue.vue";
 export default {
   components: { PanelVue },
   setup(props) {
-    const store = useStore()
-    const isMenuOpen = computed(() => {
-      return store.state.openHeaderMenu
-    })
-
-    const openMenu = () => {
-      store.commit('openMenu')
+    const isOpen = ref(false)
+    function openMenu(params) {
+      isOpen.value = true
+    }
+    function closeMenu(params) {
+      isOpen.value = false
     }
 
     return {
-      isMenuOpen,
       openMenu,
+      isOpen,
+      closeMenu
     }
   }
 };
